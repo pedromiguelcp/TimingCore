@@ -18,10 +18,12 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+
 //STATE MACHINE DEFINES
 `define IDLE        3'b000
 `define MEM_INIT    3'b001
 `define WAIT        3'b010
+`define DELAY       3'b011
 `define DONE        3'b100
 
 module timingCore_tb #(
@@ -49,13 +51,18 @@ reg             start_TC_r, init_mem_r, mems_updated_r;
 reg             sim_done_r;
 reg     [7:0]   lines_processed_r;
 
-assign nxt_state_w  =   (cur_state_r == `IDLE & ~init_mem_r)            ?   `IDLE       :
-                        (cur_state_r == `IDLE & init_mem_r)             ?   `MEM_INIT   :
-                        (cur_state_r == `MEM_INIT & ~mems_updated_r)    ?   `MEM_INIT   :
-                        (cur_state_r == `MEM_INIT & mems_updated_r)     ?   `WAIT       :
-                        (cur_state_r == `WAIT & ~sim_done_r)            ?   `WAIT       :
-                        (cur_state_r == `WAIT & sim_done_r)             ?   `DONE       :
-                        (cur_state_r == `DONE)                          ?   `DONE       :   `IDLE;
+assign nxt_state_w  =   (cur_state_r == `IDLE & ~init_mem_r)                        ?   `IDLE       :
+                        (cur_state_r == `IDLE & init_mem_r)                         ?   `MEM_INIT   :
+                        (cur_state_r == `MEM_INIT & ~mems_updated_r)                ?   `MEM_INIT   :
+                        (cur_state_r == `MEM_INIT & mems_updated_r)                 ?   `WAIT       :
+                        (cur_state_r == `WAIT & ~sim_done_r & ~line_completed_w)    ?   `WAIT       :
+                        (cur_state_r == `WAIT & ~sim_done_r & line_completed_w)     ?   `DELAY      :
+                        (cur_state_r == `WAIT & sim_done_r)                         ?   `DONE       :
+
+                        (cur_state_r == `DELAY & line_completed_w)                  ?   `DELAY      :
+                        (cur_state_r == `DELAY & ~line_completed_w)                 ?   `WAIT       :
+
+                        (cur_state_r == `DONE)                                      ?   `DONE       :   `IDLE;
 
 
 initial begin
@@ -63,14 +70,12 @@ initial begin
 
     clk_r                           = 0;
     nrst_r                          = 0;
-    memory_selector_r               = 3'b000; // 0-4 frame memories
     points_per_line_r               = 10'd360;
     lines_per_frame_r               = 8'd100;
     number_of_frames_r              = 3'd5;
     mem_cycles_r                    = 8'd100;
     pulse_length_r                  = 5'b00101;
     quarter_mirror_cycle_delay_r    = 16'h0A; // 10 clks delay
-    start_TC_r                      = 1'b0;
 
 
     #20 // 2 clk cycles
@@ -118,7 +123,7 @@ always @(posedge clk_r or negedge nrst_r) begin
             if(waddr_r < points_per_line_r) begin
                 waddr_r <= waddr_r + 1'b1;
                 wdata_r <= 17'd5;
-                //we_r    <= 1'b1;
+                //we_r    <= 1'b1; // memories already filled at init
             end
             else begin
                 waddr_r <= 11'd0;
