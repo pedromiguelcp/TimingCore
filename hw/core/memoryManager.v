@@ -90,12 +90,13 @@ always@(posedge clk_i or negedge nrst_i) begin
         mem_cycles_cnt_r <= 8'h00;
     end
     else if(new_line_i) begin
-        mem_cycles_cnt_r <=mem_cycles_cnt_r +1'b1;
+        mem_cycles_cnt_r <= mem_cycles_cnt_r +1'b1;
     end
     else if(~mem_ok_w) begin
         mem_cycles_cnt_r <= 8'h00;
     end
 end
+
 
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin

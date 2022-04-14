@@ -32,7 +32,6 @@ module timingCore(
     input           clk_i,
     input           nrst_i,
     input           zc_i,
-    //output          end_of_line,
     //MEMORIES INTERFACE
     input   [10:0]  waddr_i,
     input   [16:0]  wdata_i,
