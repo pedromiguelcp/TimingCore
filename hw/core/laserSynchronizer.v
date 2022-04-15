@@ -59,6 +59,9 @@ reg             active_pixel_r;
 reg     [15:0]  previous_dt_ticks_r [0:NUMBER_OF_FRAMES_P-1];
 integer i;
 
+wire            dt_Ticks_valid_w;
+wire [15:0]     dt_Ticks_w;
+
 //STATE MACHINE
 assign nxt_state_w  =   (cur_state_r == `IDLE & ~ticks_update_r)            ?   `IDLE       :
                         (cur_state_r == `IDLE & ticks_update_r)             ?   `MEM_UPDATE :
@@ -120,15 +123,14 @@ always @(posedge clk_i or negedge nrst_i) begin
     end
     else begin // carefull about delays!!
         if((waddr_r < TOTAL_POINTS_P) & (cur_state_r == `MEM_UPDATE)) begin
+            //test
+            //dt_ticks_r <= 16'd20 + memory_selector_r;
+            //previous_dt_ticks_r[memory_selector_r] <= dt_ticks_r;
+            //dt_ticks_r <= dt_ticks_r - previous_dt_ticks_r[memory_selector_r];
 
-            dt_ticks_r <= 16'd20 + memory_selector_r;
-
-            previous_dt_ticks_r[memory_selector_r] <= dt_ticks_r;
-            dt_ticks_r <= dt_ticks_r - previous_dt_ticks_r[memory_selector_r];
-
-
-
-
+            if(dt_Ticks_valid_w) begin
+                //para a memoria pode ir diretamente {active_pixel_r, dt_Ticks_w}
+            end
 
 
             waddr_r     <= waddr_r + 1'b1;
@@ -165,6 +167,21 @@ always @(posedge clk_i or negedge nrst_i) begin
         end
     end
 end
+
+
+cordicManager #(
+    .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
+    .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P),
+    .THETAMAX_P(THETAMAX_P)
+) CM_uut
+(
+    .clk_i(clk_i),
+    .nrst_i(nrst_i),
+    .freq_i(freq_i),
+
+    .dt_Ticks_valid_o(dt_Ticks_valid_w),
+    .dt_Ticks_o(dt_Ticks_w)
+);
 
 
 timingCore TC_uut(

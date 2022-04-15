@@ -45,7 +45,15 @@ wire [31:0]     fp_thetaStep_sub_result_tdata_w;
 wire            fp_thetaStep_div_result_tvalid_w;
 wire [31:0]     fp_thetaStep_div_result_tdata_w;
 
+//passar thetaSin_o e thetaCos_o para fixed-point format
  
+//pegar na saida do fp_thetaStep_div
+//multiplicar pelo próprio valor
+//resultado substrair a 1
+//fazer raiz quadrada
+//resultado é "thetaSin_o floating-point format"
+
+
 //thetaCos_o floating-point format
 fp_thetaStep_div fp_thetaStep_div (
   .aclk(clk_i),                                  // input wire aclk

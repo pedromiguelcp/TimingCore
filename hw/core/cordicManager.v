@@ -47,6 +47,21 @@ always @(posedge clk_i or negedge nrst_i) begin
     end
 end
 
+//substituir todas as constantes pelo valor respetivo no formato floating-point
+//para reduzir ao maximo o uso do FP_IP
+//validar tudo e comparar com o sw com varios valores de freq_i
+//testar de alguma forma no lab talvez
+//pensar que alterações podem ser feitas
+    //menor resolução dos floating-points
+    //uso de fixed-point nas operações
+    //implementação do cordic
+//falar com o Rui sobre a primeira iteração
+
+//meter mais resolução no cordic se necessario
+//passar para floating-point
+//multiplicar por freq_i e dividir por 2pi
+
+
 cordic cordicCore_uut (
   .aclk(clk_i),                                        // input wire aclk
   .aresetn(nrst_i),                                  // input wire aresetn
@@ -56,7 +71,6 @@ cordic cordicCore_uut (
   .m_axis_dout_tvalid(cordic_dout_tvalid_w),            // output wire m_axis_dout_tvalid
   .m_axis_dout_tdata(cordic_dout_tdata_w)              // output wire [15 : 0] m_axis_dout_tdata
 );
-
 
 
 thetaTangent  #(
