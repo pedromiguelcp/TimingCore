@@ -1,0 +1,4 @@
+vhdl xil_defaultlib  \
+"../../../../laserSync.srcs/sources_1/ip/fp_cordic_to_float/sim/fp_cordic_to_float.vhd" \
+
+nosort

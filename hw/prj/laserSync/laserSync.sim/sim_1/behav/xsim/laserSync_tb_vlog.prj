@@ -1,0 +1,23 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../laserSync.srcs/sources_1/ip/activePixelBRAM/sim/activePixelBRAM.v" \
+"../../../../laserSync.srcs/sources_1/ip/timestampBRAM/sim/timestampBRAM.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/activePixelMem.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/cordicManager.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/counter.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/edgeDetector.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/laserDriver.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/laserSynchronizer.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/memoryManager.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/mirrorStep.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/thetaM.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/thetaTangent.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/timestampMem.v" \
+"../../../../laserSync.srcs/sources_1/imports/core/timingCore.v" \
+"../../../../laserSync.srcs/sim_1/imports/sim/laserSync_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

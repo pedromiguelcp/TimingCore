@@ -1,0 +1,7 @@
+Running: xsim.dir/laserSync_tb_behav/xsimk.exe -simmode gui -wdb laserSync_tb_behav.wdb -simrunnum 0 -socket 49550
+Design successfully loaded
+Design Loading Memory Usage: 30420 KB (Peak: 30420 KB)
+Design Loading CPU Usage: 156 ms
+Simulation completed
+Simulation Memory Usage: 41332 KB (Peak: 41332 KB)
+Simulation CPU Usage: 544874 ms

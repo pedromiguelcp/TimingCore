@@ -1,0 +1,4 @@
+vhdl xil_defaultlib  \
+"../../../../laserSync.srcs/sources_1/ip/fp_CosSin_to_fixed/sim/fp_CosSin_to_fixed.vhd" \
+
+nosort
