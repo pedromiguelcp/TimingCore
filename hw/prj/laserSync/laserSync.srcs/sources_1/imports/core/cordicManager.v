@@ -91,7 +91,6 @@ always @(posedge clk_i or negedge nrst_i) begin
     end
 end
 
-
 //Check for new dt_tick
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
@@ -105,17 +104,6 @@ always @(posedge clk_i or negedge nrst_i) begin
         next_dtTick_r   <= (~dtTick_states_r[0] & dtTick_states_r[1]);
     end
 end
-
-//substituir todas as constantes pelo valor respetivo no formato floating-point
-//para reduzir ao maximo o uso do FP_IP
-//validar tudo e comparar com o sw com varios valores de freq_i
-//testar de alguma forma no lab talvez
-//pensar que alterações podem ser feitas
-    //menor resolução dos floating-points
-    //resolução do cordic
-    //uso de fixed-point nas operações
-    //implementação do cordic
-//falar com o abilio/Rui sobre a primeira iteração e sugestoes
 
 //dt_ticks in fixed-point(int32) format
 fp_dtTicks_to_fixed fp_dtTicks_to_fixed (

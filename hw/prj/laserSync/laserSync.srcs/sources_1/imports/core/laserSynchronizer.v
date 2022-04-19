@@ -209,12 +209,12 @@ timingCore TC_uut(
     .we_i(we_r), // enable memory write (just send a singal?)
     .memory_selector_i(memory_selector_r), // select MEM0 | MEM1
     .mem_updated_i(mem_updated_r), // memory enable (enable switch between mems)
-    .points_per_line_i(POINTS_PER_LINE_P), // 360
-    .lines_per_frame_i(LINES_PER_FRAME_P), // 100
-    .number_of_frames_i(NUMBER_OF_FRAMES_P), // 5
-    .mem_cycles_i(MEM_CYCLES_P-1), // 100 (maybe not needed)
-    .pulse_length_i(PULSE_LENGTH_P), // 5 (clock cycles "triggering" the laser beam)
-    .quarter_mirror_cycle_delay_i(quarter_mirror_cycle_delay_w), // 12500 | 23148 (? clks from center to edge of mirror)
+    .points_per_line_i(POINTS_PER_LINE_P[9:0]-1'b1), // 360
+    .lines_per_frame_i(LINES_PER_FRAME_P[7:0]-1'b1), // 100
+    .number_of_frames_i(NUMBER_OF_FRAMES_P[2:0]-1'b1), // 5
+    .mem_cycles_i(MEM_CYCLES_P[7:0]-1'b1), // 100 
+    .pulse_length_i(PULSE_LENGTH_P[4:0]-1'b1), // 5 (clock cycles "triggering" the laser beam)
+    .quarter_mirror_cycle_delay_i(quarter_mirror_cycle_delay_w-1'b1), // 12500 | 23148 (? clks from center to edge of mirror)
     
     .update_mem_o(update_mem_w), // update MEM0 | MEM1
     .laser_trigger_o(laser_trigger_o), // trigger lase beam

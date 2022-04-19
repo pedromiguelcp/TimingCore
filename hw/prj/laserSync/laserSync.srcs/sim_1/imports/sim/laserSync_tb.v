@@ -24,7 +24,7 @@ module laserSync_tb #
 (
     parameter   SYSCLOCK_P          = 500000000, //500MHz
     parameter   POINTS_PER_LINE_P   = 360,
-    parameter   LINES_PER_FRAME_P   = 4,
+    parameter   LINES_PER_FRAME_P   = 13,
     parameter   NUMBER_OF_FRAMES_P  = 5,
     parameter   MEM_CYCLES_P        = 13,
     parameter   PULSE_LENGTH_P      = 5,
@@ -120,7 +120,7 @@ laserSynchronizer #(
     .clk_i(clk_r),
     .nrst_i(nrst_r),
     .zc_i(zc_r),
-    .freq_i(SYS_MIRROR_RATIO_P),
+    .freq_i(SYS_MIRROR_RATIO_P[23:0]),
 
     .laser_trigger_o(laser_trigger_w),
     .wedata_dtTicks_o(wedata_dtTicks_w),
