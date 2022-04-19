@@ -163,42 +163,7 @@ assign wen_w    =   (memory_selector_i == 3'b000)   ?   {4'b0000, wen_i}        
                     (memory_selector_i == 3'b011)   ?   {1'b0, wen_i, 3'b000}   :
                     (memory_selector_i == 3'b100)   ?   {wen_i, 4'b0000}        :   {4'b000, wen_i};
 
-/************************************************************/
-integer f0, f1, f2, f3, f4;
-initial begin
-  f0 = $fopen("dt_Ticks_Frame0.txt","w");
-  f1 = $fopen("dt_Ticks_Frame1.txt","w");
-  f2 = $fopen("dt_Ticks_Frame2.txt","w");
-  f3 = $fopen("dt_Ticks_Frame3.txt","w");
-  f4 = $fopen("dt_Ticks_Frame4.txt","w");
-end
-always @(posedge clk_i) begin
-    if(wen_i) begin
-        if(memory_selector_i == 3'b000) begin
-            $fwrite(f0,"%d\n",wdata_i[15:0]);
-        end
-        else if(memory_selector_i == 3'b001) begin
-            $fwrite(f1,"%d\n",wdata_i[15:0]);
-        end
-        else if(memory_selector_i == 3'b010) begin
-            $fwrite(f2,"%d\n",wdata_i[15:0]);
-        end
-        else if(memory_selector_i == 3'b011) begin
-            $fwrite(f3,"%d\n",wdata_i[15:0]);
-        end
-        else if(memory_selector_i == 3'b100) begin
-            $fwrite(f4,"%d\n",wdata_i[15:0]);
-        end
-    end
-    if (waddr_i >= 11'd360) begin
-        $fclose(f0);
-        $fclose(f1);
-        $fclose(f2);
-        $fclose(f3);
-        $fclose(f4);
-    end
-end
-/************************************************************/
+
 //TIMESTAMP MEMORY INSTANCES
 genvar i;
 generate
@@ -242,4 +207,39 @@ assign active_pixel_o = (mem_grp_r == 3'b000)   ?   active_pixel_w[0]  :
                         (mem_grp_r == 3'b010)   ?   active_pixel_w[2]  :
                         (mem_grp_r == 3'b011)   ?   active_pixel_w[3]  :
                         (mem_grp_r == 3'b100)   ?   active_pixel_w[4]  :    active_pixel_w[0];
+
+integer f0, f1, f2, f3, f4;
+initial begin
+  f0 = $fopen("dt_Ticks_Frame0.txt","w");
+  f1 = $fopen("dt_Ticks_Frame1.txt","w");
+  f2 = $fopen("dt_Ticks_Frame2.txt","w");
+  f3 = $fopen("dt_Ticks_Frame3.txt","w");
+  f4 = $fopen("dt_Ticks_Frame4.txt","w");
+end
+always @(posedge clk_i) begin
+    if(wen_i) begin
+        if(memory_selector_i == 3'b000) begin
+            $fwrite(f0,"%d\n",wdata_i[15:0]);
+        end
+        else if(memory_selector_i == 3'b001) begin
+            $fwrite(f1,"%d\n",wdata_i[15:0]);
+        end
+        else if(memory_selector_i == 3'b010) begin
+            $fwrite(f2,"%d\n",wdata_i[15:0]);
+        end
+        else if(memory_selector_i == 3'b011) begin
+            $fwrite(f3,"%d\n",wdata_i[15:0]);
+        end
+        else if(memory_selector_i == 3'b100) begin
+            $fwrite(f4,"%d\n",wdata_i[15:0]);
+        end
+    end
+    if (waddr_i >= 11'd360) begin
+        $fclose(f0);
+        $fclose(f1);
+        $fclose(f2);
+        $fclose(f3);
+        $fclose(f4);
+    end
+end
 endmodule

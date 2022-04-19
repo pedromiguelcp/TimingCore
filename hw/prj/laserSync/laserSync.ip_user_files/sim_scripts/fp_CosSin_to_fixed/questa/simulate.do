@@ -3,6 +3,9 @@ onerror {quit -f}
 
 vsim -lib xil_defaultlib fp_CosSin_to_fixed_opt
 
+set NumericStdNoWarnings 1
+set StdArithNoWarnings 1
+
 do {wave.do}
 
 view wave

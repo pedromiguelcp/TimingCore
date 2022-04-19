@@ -1,0 +1,226 @@
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:04 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'timestampBRAM'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of timestampBRAM (xilinx.com:ip:blk_mem_gen:8.4) from (Rev. 4) to (Rev. 5)
+
+
+
+
+
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:04 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'fp_uint32_to_float'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of fp_uint32_to_float (xilinx.com:ip:floating_point:7.1) from (Rev. 10) to (Rev. 13)
+
+
+
+
+
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:03 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'fp_sub'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of fp_sub (xilinx.com:ip:floating_point:7.1) from (Rev. 10) to (Rev. 13)
+
+
+
+
+
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:03 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'fp_sqrt'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of fp_sqrt (xilinx.com:ip:floating_point:7.1) from (Rev. 10) to (Rev. 13)
+
+
+
+
+
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:02 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'fp_mult'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of fp_mult (xilinx.com:ip:floating_point:7.1) from (Rev. 10) to (Rev. 13)
+
+
+
+
+
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:02 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'fp_dtTicks_to_fixed'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of fp_dtTicks_to_fixed (xilinx.com:ip:floating_point:7.1) from (Rev. 10) to (Rev. 13)
+
+
+
+
+
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:01 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'fp_div'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of fp_div (xilinx.com:ip:floating_point:7.1) from (Rev. 10) to (Rev. 13)
+
+
+
+
+
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:01 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'fp_cordic_to_float'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of fp_cordic_to_float (xilinx.com:ip:floating_point:7.1) from (Rev. 10) to (Rev. 13)
+
+
+
+
+
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:00 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'fp_CosSin_to_fixed'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of fp_CosSin_to_fixed (xilinx.com:ip:floating_point:7.1) from (Rev. 10) to (Rev. 13)
+
+
+
+
+
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:00 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'cordic'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of cordic (xilinx.com:ip:cordic:6.0) from (Rev. 16) to (Rev. 17)
+
+
+
+
+
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Tue Apr 19 08:43:00 2022
+| Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
+| Command      : upgrade_ip
+| Device       : xczu7ev-ffvc1156-2-e
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'activePixelBRAM'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of activePixelBRAM (xilinx.com:ip:blk_mem_gen:8.4) from (Rev. 4) to (Rev. 5)
+

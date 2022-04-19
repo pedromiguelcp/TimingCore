@@ -10,9 +10,9 @@ vlib questa_lib/msim/xbip_dsp48_addsub_v3_0_6
 vlib questa_lib/msim/xbip_addsub_v3_0_6
 vlib questa_lib/msim/c_addsub_v12_0_14
 vlib questa_lib/msim/xbip_bram18k_v3_0_6
-vlib questa_lib/msim/mult_gen_v12_0_16
+vlib questa_lib/msim/mult_gen_v12_0_17
 vlib questa_lib/msim/axi_utils_v2_0_6
-vlib questa_lib/msim/cordic_v6_0_16
+vlib questa_lib/msim/cordic_v6_0_17
 vlib questa_lib/msim/xil_defaultlib
 
 vmap xpm questa_lib/msim/xpm
@@ -24,52 +24,52 @@ vmap xbip_dsp48_addsub_v3_0_6 questa_lib/msim/xbip_dsp48_addsub_v3_0_6
 vmap xbip_addsub_v3_0_6 questa_lib/msim/xbip_addsub_v3_0_6
 vmap c_addsub_v12_0_14 questa_lib/msim/c_addsub_v12_0_14
 vmap xbip_bram18k_v3_0_6 questa_lib/msim/xbip_bram18k_v3_0_6
-vmap mult_gen_v12_0_16 questa_lib/msim/mult_gen_v12_0_16
+vmap mult_gen_v12_0_17 questa_lib/msim/mult_gen_v12_0_17
 vmap axi_utils_v2_0_6 questa_lib/msim/axi_utils_v2_0_6
-vmap cordic_v6_0_16 questa_lib/msim/cordic_v6_0_16
+vmap cordic_v6_0_17 questa_lib/msim/cordic_v6_0_17
 vmap xil_defaultlib questa_lib/msim/xil_defaultlib
 
-vlog -work xpm  -sv \
-"C:/Xilinx/Vivado/2020.1/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
+vlog -work xpm -64 -incr -mfcu -sv \
+"/tools/Xilinx/Vivado/2021.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
 
-vcom -work xpm  -93 \
-"C:/Xilinx/Vivado/2020.1/data/ip/xpm/xpm_VCOMP.vhd" \
+vcom -work xpm -64 -93 \
+"/tools/Xilinx/Vivado/2021.2/data/ip/xpm/xpm_VCOMP.vhd" \
 
-vcom -work xbip_utils_v3_0_10  -93 \
+vcom -work xbip_utils_v3_0_10 -64 -93 \
 "../../../ipstatic/hdl/xbip_utils_v3_0_vh_rfs.vhd" \
 
-vcom -work c_reg_fd_v12_0_6  -93 \
+vcom -work c_reg_fd_v12_0_6 -64 -93 \
 "../../../ipstatic/hdl/c_reg_fd_v12_0_vh_rfs.vhd" \
 
-vcom -work xbip_dsp48_wrapper_v3_0_4  -93 \
+vcom -work xbip_dsp48_wrapper_v3_0_4 -64 -93 \
 "../../../ipstatic/hdl/xbip_dsp48_wrapper_v3_0_vh_rfs.vhd" \
 
-vcom -work xbip_pipe_v3_0_6  -93 \
+vcom -work xbip_pipe_v3_0_6 -64 -93 \
 "../../../ipstatic/hdl/xbip_pipe_v3_0_vh_rfs.vhd" \
 
-vcom -work xbip_dsp48_addsub_v3_0_6  -93 \
+vcom -work xbip_dsp48_addsub_v3_0_6 -64 -93 \
 "../../../ipstatic/hdl/xbip_dsp48_addsub_v3_0_vh_rfs.vhd" \
 
-vcom -work xbip_addsub_v3_0_6  -93 \
+vcom -work xbip_addsub_v3_0_6 -64 -93 \
 "../../../ipstatic/hdl/xbip_addsub_v3_0_vh_rfs.vhd" \
 
-vcom -work c_addsub_v12_0_14  -93 \
+vcom -work c_addsub_v12_0_14 -64 -93 \
 "../../../ipstatic/hdl/c_addsub_v12_0_vh_rfs.vhd" \
 
-vcom -work xbip_bram18k_v3_0_6  -93 \
+vcom -work xbip_bram18k_v3_0_6 -64 -93 \
 "../../../ipstatic/hdl/xbip_bram18k_v3_0_vh_rfs.vhd" \
 
-vcom -work mult_gen_v12_0_16  -93 \
+vcom -work mult_gen_v12_0_17 -64 -93 \
 "../../../ipstatic/hdl/mult_gen_v12_0_vh_rfs.vhd" \
 
-vcom -work axi_utils_v2_0_6  -93 \
+vcom -work axi_utils_v2_0_6 -64 -93 \
 "../../../ipstatic/hdl/axi_utils_v2_0_vh_rfs.vhd" \
 
-vcom -work cordic_v6_0_16  -93 \
+vcom -work cordic_v6_0_17 -64 -93 \
 "../../../ipstatic/hdl/cordic_v6_0_vh_rfs.vhd" \
 
-vcom -work xil_defaultlib  -93 \
-"../../../../laserSync.srcs/sources_1/ip/cordic/sim/cordic.vhd" \
+vcom -work xil_defaultlib -64 -93 \
+"../../../../laserSync.gen/sources_1/ip/cordic/sim/cordic.vhd" \
 
 
 vlog -work xil_defaultlib \

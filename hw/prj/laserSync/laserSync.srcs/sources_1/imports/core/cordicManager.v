@@ -68,11 +68,11 @@ assign  next_dt_Ticks_o  = next_dtTick_r;
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         theta_iteration_valid_r <= 1'b0;
-        theta_iteration_r       <= 16'd1;
+        theta_iteration_r       <= 16'd0;
     end
     else begin
         if(en_cordic_i) begin
-            if(theta_iteration_r <= 16'd1) begin
+            if(theta_iteration_r <= 16'd0) begin
                 theta_iteration_valid_r <= 1'b1;
             end
             
@@ -86,7 +86,7 @@ always @(posedge clk_i or negedge nrst_i) begin
         end
         else begin
             theta_iteration_valid_r <= 1'b0;
-            theta_iteration_r       <= 16'd1;  
+            theta_iteration_r       <= 16'd0;  
         end
     end
 end
@@ -96,6 +96,8 @@ end
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         dtTick_states_r <= 2'b00;
+        new_dtTick_r    <= 1'b0;
+        next_dtTick_r   <= 1'b0;
     end
     else begin 
         dtTick_states_r <= {dtTick_states_r[0], dt_Ticks_valid_w};
@@ -163,7 +165,7 @@ fp_cordic_to_float fp_cordic (
   .aclk(clk_i),                                  
   .aresetn(nrst_i),                         
   .s_axis_a_tvalid(cordic_dout_tvalid_w),         
-  .s_axis_a_tdata(cordic_dout_tdata_w),              
+  .s_axis_a_tdata((cordic_dout_tdata_w == 16'b1111111111111111) ? 16'b0000000000000000 : cordic_dout_tdata_w),              
   .m_axis_result_tvalid(fp_cordic_result_tvalid_w),  
   .m_axis_result_tdata(fp_cordic_result_tdata_w)    
 );

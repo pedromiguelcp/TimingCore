@@ -1,8 +1,8 @@
 -makelib xcelium_lib/xpm -sv \
-  "C:/Xilinx/Vivado/2020.1/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
+  "/tools/Xilinx/Vivado/2021.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
 -endlib
 -makelib xcelium_lib/xpm \
-  "C:/Xilinx/Vivado/2020.1/data/ip/xpm/xpm_VCOMP.vhd" \
+  "/tools/Xilinx/Vivado/2021.2/data/ip/xpm/xpm_VCOMP.vhd" \
 -endlib
 -makelib xcelium_lib/xbip_utils_v3_0_10 \
   "../../../ipstatic/hdl/xbip_utils_v3_0_vh_rfs.vhd" \
@@ -25,14 +25,17 @@
 -makelib xcelium_lib/xbip_bram18k_v3_0_6 \
   "../../../ipstatic/hdl/xbip_bram18k_v3_0_vh_rfs.vhd" \
 -endlib
--makelib xcelium_lib/mult_gen_v12_0_16 \
+-makelib xcelium_lib/mult_gen_v12_0_17 \
   "../../../ipstatic/hdl/mult_gen_v12_0_vh_rfs.vhd" \
 -endlib
--makelib xcelium_lib/floating_point_v7_1_10 \
+-makelib xcelium_lib/floating_point_v7_1_13 \
   "../../../ipstatic/hdl/floating_point_v7_1_rfs.vhd" \
 -endlib
+-makelib xcelium_lib/floating_point_v7_1_13 \
+  "../../../ipstatic/hdl/floating_point_v7_1_rfs.v" \
+-endlib
 -makelib xcelium_lib/xil_defaultlib \
-  "../../../../laserSync.srcs/sources_1/ip/fp_dtTicks_to_fixed/sim/fp_dtTicks_to_fixed.vhd" \
+  "../../../../laserSync.gen/sources_1/ip/fp_dtTicks_to_fixed/sim/fp_dtTicks_to_fixed.v" \
 -endlib
 -makelib xcelium_lib/xil_defaultlib \
   glbl.v

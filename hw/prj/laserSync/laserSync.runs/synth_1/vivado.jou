@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2021.2 (64-bit)
+# SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
+# IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+# Start of session at: Tue Apr 19 13:16:23 2022
+# Process ID: 19105
+# Current directory: /home/p12-bosch/cordic/laserSync/laserSync.runs/synth_1
+# Command line: vivado -log laserSynchronizer.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source laserSynchronizer.tcl
+# Log file: /home/p12-bosch/cordic/laserSync/laserSync.runs/synth_1/laserSynchronizer.vds
+# Journal file: /home/p12-bosch/cordic/laserSync/laserSync.runs/synth_1/vivado.jou
+# Running On: p12bosch-RTX6000, OS: Linux, CPU Frequency: 4001.026 MHz, CPU Physical cores: 10, Host memory: 67244 MB
+#-----------------------------------------------------------
+source laserSynchronizer.tcl -notrace

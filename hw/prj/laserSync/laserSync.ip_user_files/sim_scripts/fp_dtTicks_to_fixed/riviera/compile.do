@@ -9,8 +9,8 @@ vlib riviera/xbip_dsp48_wrapper_v3_0_4
 vlib riviera/xbip_dsp48_addsub_v3_0_6
 vlib riviera/xbip_dsp48_multadd_v3_0_6
 vlib riviera/xbip_bram18k_v3_0_6
-vlib riviera/mult_gen_v12_0_16
-vlib riviera/floating_point_v7_1_10
+vlib riviera/mult_gen_v12_0_17
+vlib riviera/floating_point_v7_1_13
 vlib riviera/xil_defaultlib
 
 vmap xpm riviera/xpm
@@ -21,15 +21,15 @@ vmap xbip_dsp48_wrapper_v3_0_4 riviera/xbip_dsp48_wrapper_v3_0_4
 vmap xbip_dsp48_addsub_v3_0_6 riviera/xbip_dsp48_addsub_v3_0_6
 vmap xbip_dsp48_multadd_v3_0_6 riviera/xbip_dsp48_multadd_v3_0_6
 vmap xbip_bram18k_v3_0_6 riviera/xbip_bram18k_v3_0_6
-vmap mult_gen_v12_0_16 riviera/mult_gen_v12_0_16
-vmap floating_point_v7_1_10 riviera/floating_point_v7_1_10
+vmap mult_gen_v12_0_17 riviera/mult_gen_v12_0_17
+vmap floating_point_v7_1_13 riviera/floating_point_v7_1_13
 vmap xil_defaultlib riviera/xil_defaultlib
 
 vlog -work xpm  -sv2k12 \
-"C:/Xilinx/Vivado/2020.1/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
+"/tools/Xilinx/Vivado/2021.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
 
 vcom -work xpm -93 \
-"C:/Xilinx/Vivado/2020.1/data/ip/xpm/xpm_VCOMP.vhd" \
+"/tools/Xilinx/Vivado/2021.2/data/ip/xpm/xpm_VCOMP.vhd" \
 
 vcom -work xbip_utils_v3_0_10 -93 \
 "../../../ipstatic/hdl/xbip_utils_v3_0_vh_rfs.vhd" \
@@ -52,14 +52,17 @@ vcom -work xbip_dsp48_multadd_v3_0_6 -93 \
 vcom -work xbip_bram18k_v3_0_6 -93 \
 "../../../ipstatic/hdl/xbip_bram18k_v3_0_vh_rfs.vhd" \
 
-vcom -work mult_gen_v12_0_16 -93 \
+vcom -work mult_gen_v12_0_17 -93 \
 "../../../ipstatic/hdl/mult_gen_v12_0_vh_rfs.vhd" \
 
-vcom -work floating_point_v7_1_10 -93 \
+vcom -work floating_point_v7_1_13 -93 \
 "../../../ipstatic/hdl/floating_point_v7_1_rfs.vhd" \
 
-vcom -work xil_defaultlib -93 \
-"../../../../laserSync.srcs/sources_1/ip/fp_dtTicks_to_fixed/sim/fp_dtTicks_to_fixed.vhd" \
+vlog -work floating_point_v7_1_13  -v2k5 \
+"../../../ipstatic/hdl/floating_point_v7_1_rfs.v" \
+
+vlog -work xil_defaultlib  -v2k5 \
+"../../../../laserSync.gen/sources_1/ip/fp_dtTicks_to_fixed/sim/fp_dtTicks_to_fixed.v" \
 
 
 vlog -work xil_defaultlib \
