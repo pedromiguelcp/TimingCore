@@ -1,7 +1,7 @@
 Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
-| Date         : Tue Apr 19 13:18:27 2022
+| Date         : Wed Apr 20 14:02:08 2022
 | Host         : p12bosch-RTX6000 running 64-bit Ubuntu 18.04.6 LTS
 | Command      : report_utilization -file laserSynchronizer_utilization_synth.rpt -pb laserSynchronizer_utilization_synth.pb
 | Design       : laserSynchronizer
@@ -32,15 +32,15 @@ Table of Contents
 +----------------------------+------+-------+------------+-----------+-------+
 |          Site Type         | Used | Fixed | Prohibited | Available | Util% |
 +----------------------------+------+-------+------------+-----------+-------+
-| CLB LUTs*                  | 5613 |     0 |          0 |    230400 |  2.44 |
-|   LUT as Logic             | 5353 |     0 |          0 |    230400 |  2.32 |
+| CLB LUTs*                  | 5629 |     0 |          0 |    230400 |  2.44 |
+|   LUT as Logic             | 5369 |     0 |          0 |    230400 |  2.33 |
 |   LUT as Memory            |  260 |     0 |          0 |    101760 |  0.26 |
 |     LUT as Distributed RAM |    0 |     0 |            |           |       |
 |     LUT as Shift Register  |  260 |     0 |            |           |       |
-| CLB Registers              | 8788 |     0 |          0 |    460800 |  1.91 |
-|   Register as Flip Flop    | 8788 |     0 |          0 |    460800 |  1.91 |
+| CLB Registers              | 8791 |     0 |          0 |    460800 |  1.91 |
+|   Register as Flip Flop    | 8791 |     0 |          0 |    460800 |  1.91 |
 |   Register as Latch        |    0 |     0 |          0 |    460800 |  0.00 |
-| CARRY8                     |  654 |     0 |          0 |     28800 |  2.27 |
+| CARRY8                     |  656 |     0 |          0 |     28800 |  2.28 |
 | F7 Muxes                   |   43 |     0 |          0 |    115200 |  0.04 |
 | F8 Muxes                   |    5 |     0 |          0 |     57600 | <0.01 |
 | F9 Muxes                   |    0 |     0 |          0 |     28800 |  0.00 |
@@ -61,7 +61,7 @@ Table of Contents
 | 0     |            _ |       Reset |            - |
 | 0     |          Yes |           - |            - |
 | 4     |          Yes |           - |          Set |
-| 205   |          Yes |           - |        Reset |
+| 208   |          Yes |           - |        Reset |
 | 3     |          Yes |         Set |            - |
 | 8576  |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
@@ -162,14 +162,14 @@ Table of Contents
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
 | FDRE     | 8576 |            Register |
-| LUT3     | 2857 |                 CLB |
-| LUT2     | 1509 |                 CLB |
-| CARRY8   |  654 |                 CLB |
-| LUT6     |  450 |                 CLB |
-| LUT4     |  402 |                 CLB |
-| LUT5     |  348 |                 CLB |
-| LUT1     |  217 |                 CLB |
-| FDCE     |  205 |            Register |
+| LUT3     | 2863 |                 CLB |
+| LUT2     | 1524 |                 CLB |
+| CARRY8   |  656 |                 CLB |
+| LUT6     |  458 |                 CLB |
+| LUT4     |  394 |                 CLB |
+| LUT5     |  356 |                 CLB |
+| LUT1     |  220 |                 CLB |
+| FDCE     |  208 |            Register |
 | SRL16E   |  185 |                 CLB |
 | SRLC32E  |   75 |                 CLB |
 | MUXF7    |   43 |                 CLB |

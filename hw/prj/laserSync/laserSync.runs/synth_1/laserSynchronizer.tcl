@@ -94,6 +94,8 @@ read_verilog -library xil_defaultlib {
   /home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/imports/core/cordicManager.v
   /home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/imports/core/counter.v
   /home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/imports/core/edgeDetector.v
+  /home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/new/fixed_div.v
+  /home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/new/fixed_mul.v
   /home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/imports/core/laserDriver.v
   /home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/imports/core/memoryManager.v
   /home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/imports/core/mirrorStep.v

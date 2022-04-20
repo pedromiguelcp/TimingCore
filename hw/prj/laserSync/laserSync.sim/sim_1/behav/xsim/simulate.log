@@ -63,4 +63,3 @@ Block Memory Generator module laserSync_tb.LS_uut.TC_uut.memoryManager_inst.\act
 
 **************LASER SYNC tb********************
 
-INFO: xsimkernel Simulation Memory Usage: 165344 KB (Peak: 214512 KB), Simulation CPU Usage: 23890 ms

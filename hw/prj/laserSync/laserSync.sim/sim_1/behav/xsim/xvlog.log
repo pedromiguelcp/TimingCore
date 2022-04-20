@@ -26,6 +26,10 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/laserSync/la
 INFO: [VRFC 10-311] analyzing module counter
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/imports/core/edgeDetector.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module edgeDetector
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/new/fixed_div.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fixed_div
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/new/fixed_mul.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module fixed_mul
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/imports/core/laserDriver.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module laserDriver
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/laserSync/laserSync.srcs/sources_1/imports/core/laserSynchronizer.v" into library xil_defaultlib
