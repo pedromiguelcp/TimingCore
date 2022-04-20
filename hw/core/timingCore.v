@@ -79,7 +79,7 @@ reg             cnt_en_r;
 assign nxt_state_w  =   (cur_state_r == `IDLE & ~zc_edge_w)             ?   `IDLE       :
                         (cur_state_r == `IDLE & zc_edge_w)              ?   `WAIT       :
                         (cur_state_r == `WAIT & ~wait_over_r)           ?   `WAIT       :
-                        (cur_state_r == `WAIT & wait_over_r)            ?   `TRIGGER    :
+                        (cur_state_r == `WAIT & wait_over_r)            ?   `TRIGGER    ://delay?
                         (cur_state_r == `TRIGGER & ~line_completed_r)   ?   `DELAY      :
                         (cur_state_r == `TRIGGER & line_completed_r)    ?   `NEW_LINE   :
                         (cur_state_r == `DELAY & ~fire_next_point_r)    ?   `DELAY      :

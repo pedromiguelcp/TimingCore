@@ -19,14 +19,13 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module laserSync_tb #
 (
     parameter   SYSCLOCK_P          = 500000000, //500MHz
     parameter   POINTS_PER_LINE_P   = 360,
-    parameter   LINES_PER_FRAME_P   = 100,
+    parameter   LINES_PER_FRAME_P   = 13,
     parameter   NUMBER_OF_FRAMES_P  = 5,
-    parameter   MEM_CYCLES_P        = 100,
+    parameter   MEM_CYCLES_P        = 13,
     parameter   PULSE_LENGTH_P      = 5,
     parameter   THETAMAX_P          = 9,
     parameter   MIRROR_FREQ_P       = 10800,
@@ -35,7 +34,11 @@ module laserSync_tb #
 
 reg         clk_r, nrst_r, zc_r;
 reg [15:0]  cnt_clock_tick_r;
+
 wire        laser_trigger_w;
+wire        wedata_dtTicks_w;
+wire [15:0] wdata_dtTicks_w;
+wire [10:0] waddr_dtTicks_w;
 
 initial begin
     $display("\n\n**************LASER SYNC tb********************\n");
@@ -53,10 +56,10 @@ always #1 clk_r = ~clk_r; // 500MHz
 always @(posedge clk_r or negedge nrst_r) begin
     if(~nrst_r) begin
         cnt_clock_tick_r    <= 16'd0;
-        zc_r                <= 0;
+        zc_r                <= 1'b0;
     end
     else begin
-        if(cnt_clock_tick_r < SYS_MIRROR_RATIO_P)begin
+        if(cnt_clock_tick_r < SYS_MIRROR_RATIO_P/2)begin
             cnt_clock_tick_r <= cnt_clock_tick_r + 1'b1;
         end
         else begin
@@ -65,6 +68,43 @@ always @(posedge clk_r or negedge nrst_r) begin
         end
     end
 end
+
+/*
+integer f0, f1, f2, f3, f4;
+initial begin
+  f0 = $fopen("dt_Ticks_Frame0.txt","w");
+  f1 = $fopen("dt_Ticks_Frame1.txt","w");
+  f2 = $fopen("dt_Ticks_Frame2.txt","w");
+  f3 = $fopen("dt_Ticks_Frame3.txt","w");
+  f4 = $fopen("dt_Ticks_Frame4.txt","w");
+end
+always @(posedge clk_i) begin
+    if(wen_i) begin
+        if(memory_selector_i == 3'b000) begin
+            $fwrite(f0,"%d\n",wdata_i[15:0]);
+        end
+        else if(memory_selector_i == 3'b001) begin
+            $fwrite(f1,"%d\n",wdata_i[15:0]);
+        end
+        else if(memory_selector_i == 3'b010) begin
+            $fwrite(f2,"%d\n",wdata_i[15:0]);
+        end
+        else if(memory_selector_i == 3'b011) begin
+            $fwrite(f3,"%d\n",wdata_i[15:0]);
+        end
+        else if(memory_selector_i == 3'b100) begin
+            $fwrite(f4,"%d\n",wdata_i[15:0]);
+        end
+    end
+    if (waddr_i >= 11'd360) begin
+        $fclose(f0);
+        $fclose(f1);
+        $fclose(f2);
+        $fclose(f3);
+        $fclose(f4);
+    end
+end
+*/
 
 laserSynchronizer #(
     .SYSCLOCK_P(SYSCLOCK_P),
@@ -79,9 +119,12 @@ laserSynchronizer #(
     .clk_i(clk_r),
     .nrst_i(nrst_r),
     .zc_i(zc_r),
-    .freq_i(SYS_MIRROR_RATIO_P),
+    .freq_i(SYS_MIRROR_RATIO_P[23:0]),
 
-    .laser_trigger_o(laser_trigger_w)
+    .laser_trigger_o(laser_trigger_w),
+    .wedata_dtTicks_o(wedata_dtTicks_w),
+    .wdata_dtTicks_o(wdata_dtTicks_w),
+    .waddr_dtTicks_o(waddr_dtTicks_w)
 );
 
 endmodule

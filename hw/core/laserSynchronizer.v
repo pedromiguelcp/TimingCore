@@ -28,7 +28,7 @@ module laserSynchronizer #(
     parameter   POINTS_PER_LINE_P   = 360,
     parameter   LINES_PER_FRAME_P   = 100,
     parameter   NUMBER_OF_FRAMES_P  = 5,
-    parameter   MEM_CYCLES_P        = 100,
+    parameter   MEM_CYCLES_P        = 100,//simulation purposes (100 before)
     parameter   PULSE_LENGTH_P      = 5,
     parameter   THETAMAX_P          = 9,
     localparam  TOTAL_POINTS_P      = (POINTS_PER_LINE_P*NUMBER_OF_FRAMES_P)
@@ -38,7 +38,10 @@ module laserSynchronizer #(
     input           zc_i,
     input   [23:0]  freq_i,
 
-    output          laser_trigger_o
+    output          laser_trigger_o,
+        output        wedata_dtTicks_o,
+        output [15:0] wdata_dtTicks_o,
+        output [10:0] waddr_dtTicks_o
 );
 
 reg     [10:0]  waddr_r;
@@ -49,17 +52,21 @@ reg             mem_updated_r;
 wire    [15:0]  quarter_mirror_cycle_delay_w;
 wire            update_mem_w, line_completed_w;
 
+assign wedata_dtTicks_o = we_r;
+assign wdata_dtTicks_o = wdata_r[15:0];
+assign waddr_dtTicks_o = waddr_r;
+
 wire    [2:0]   nxt_state_w;
 reg     [2:0]   cur_state_r;
 reg     [1:0]   mem_switch_r;
 reg             ticks_update_r;
 reg             mem_update_over_r;
-reg     [15:0]  dt_ticks_r;
 reg             active_pixel_r;
 reg     [15:0]  previous_dt_ticks_r [0:NUMBER_OF_FRAMES_P-1];
 integer i;
-
+reg             en_cordic_r;
 wire            dt_Ticks_valid_w;
+wire            next_dt_Ticks_w;
 wire [15:0]     dt_Ticks_w;
 
 //STATE MACHINE
@@ -68,7 +75,7 @@ assign nxt_state_w  =   (cur_state_r == `IDLE & ~ticks_update_r)            ?   
                         (cur_state_r == `MEM_UPDATE & ~mem_update_over_r)   ?   `MEM_UPDATE :
                         (cur_state_r == `MEM_UPDATE & mem_update_over_r)    ?   `IDLE       :   `IDLE;
 
-assign quarter_mirror_cycle_delay_w = freq_i >> 1; // (freq/2)
+assign quarter_mirror_cycle_delay_w = freq_i >> 2; // (freq/2)
 
 
 always @(posedge clk_i or negedge nrst_i) begin
@@ -86,7 +93,7 @@ always @(posedge clk_i or negedge nrst_i) begin
         mem_update_over_r   <= 1'b0;
     end
     else begin
-        if((waddr_r >= TOTAL_POINTS_P) & (cur_state_r == `MEM_UPDATE)) begin
+        if((waddr_r >= POINTS_PER_LINE_P) & (cur_state_r == `MEM_UPDATE)) begin
             mem_update_over_r <= 1'b1;
         end
         else begin
@@ -108,47 +115,54 @@ always @(posedge clk_i or negedge nrst_i) begin
 end
 
 //Memory update
-//compute 1800 (360*5) values
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         waddr_r             <= 11'd0;
         wdata_r             <= 17'd0;
         we_r                <= 1'b0;
-        dt_ticks_r          <= 16'd0;
         active_pixel_r      <= 1'b1; //allways on for now
         memory_selector_r   <= 3'b000;
+        en_cordic_r         <= 1'b0;
         for (i = 0; i < NUMBER_OF_FRAMES_P; i = i + 1) begin
             previous_dt_ticks_r[i] <= 16'd0;
         end
     end
-    else begin // carefull about delays!!
-        if((waddr_r < TOTAL_POINTS_P) & (cur_state_r == `MEM_UPDATE)) begin
-            //test
-            //dt_ticks_r <= 16'd20 + memory_selector_r;
-            //previous_dt_ticks_r[memory_selector_r] <= dt_ticks_r;
-            //dt_ticks_r <= dt_ticks_r - previous_dt_ticks_r[memory_selector_r];
-
+    else begin
+        if(cur_state_r == `MEM_UPDATE) begin
             if(dt_Ticks_valid_w) begin
-                //para a memoria pode ir diretamente {active_pixel_r, dt_Ticks_w}
+                we_r            <= 1'b1;
+                wdata_r[16]     <= active_pixel_r;
+                wdata_r[15:0]   <= dt_Ticks_w - previous_dt_ticks_r[memory_selector_r];
+                previous_dt_ticks_r[memory_selector_r]  <= dt_Ticks_w;
+
             end
+            else if(next_dt_Ticks_w) begin
+                if(memory_selector_r < (NUMBER_OF_FRAMES_P - 1)) begin
+                    memory_selector_r <= memory_selector_r + 1'b1;
+                end
+                else begin
+                    waddr_r <= waddr_r + 1'b1;
+                    memory_selector_r <= 3'b000;
+                end
 
-
-            waddr_r     <= waddr_r + 1'b1;
-            wdata_r     <= {active_pixel_r, dt_ticks_r}; //{active_pixel [16:16],  dt_ticks [15:0]}
-            we_r        <= 1'b1;
+            end
+            else begin
+                we_r    <= 1'b0;
+            end
         end
+
+        if(cur_state_r == `MEM_UPDATE) begin
+            en_cordic_r <= 1'b1;
+        end 
         else begin
+            en_cordic_r <= 0;
             waddr_r     <= 11'd0;
             wdata_r     <= 17'd0;
             we_r        <= 1'b0;
-            dt_ticks_r  <= 13'd0;
-        end
-
-        if(memory_selector_r < (NUMBER_OF_FRAMES_P - 1)) begin
-            memory_selector_r <= memory_selector_r + 1'b1;
-        end
-        else begin
-            memory_selector_r <= 3'b000;
+            memory_selector_r   <= 3'b000;
+            for (i = 0; i < NUMBER_OF_FRAMES_P; i = i + 1) begin
+                previous_dt_ticks_r[i] <= 16'd0;
+            end
         end
     end
 end
@@ -178,8 +192,10 @@ cordicManager #(
     .clk_i(clk_i),
     .nrst_i(nrst_i),
     .freq_i(freq_i),
+    .en_cordic_i(en_cordic_r),
 
     .dt_Ticks_valid_o(dt_Ticks_valid_w),
+    .next_dt_Ticks_o(next_dt_Ticks_w),
     .dt_Ticks_o(dt_Ticks_w)
 );
 
@@ -193,12 +209,12 @@ timingCore TC_uut(
     .we_i(we_r), // enable memory write (just send a singal?)
     .memory_selector_i(memory_selector_r), // select MEM0 | MEM1
     .mem_updated_i(mem_updated_r), // memory enable (enable switch between mems)
-    .points_per_line_i(POINTS_PER_LINE_P), // 360
-    .lines_per_frame_i(LINES_PER_FRAME_P), // 100
-    .number_of_frames_i(NUMBER_OF_FRAMES_P), // 5
-    .mem_cycles_i(MEM_CYCLES_P), // 100 (maybe not needed)
-    .pulse_length_i(PULSE_LENGTH_P), // 5 (clock cycles "triggering" the laser beam)
-    .quarter_mirror_cycle_delay_i(quarter_mirror_cycle_delay_w), // 12500 | 23148 (? clks from center to edge of mirror)
+    .points_per_line_i(POINTS_PER_LINE_P[9:0]-1'b1), // 360
+    .lines_per_frame_i(LINES_PER_FRAME_P[7:0]-1'b1), // 100
+    .number_of_frames_i(NUMBER_OF_FRAMES_P[2:0]-1'b1), // 5
+    .mem_cycles_i(MEM_CYCLES_P[7:0]-1'b1), // 100 
+    .pulse_length_i(PULSE_LENGTH_P[4:0]-1'b1), // 5 (clock cycles "triggering" the laser beam)
+    .quarter_mirror_cycle_delay_i(quarter_mirror_cycle_delay_w-1'b1), // 12500 | 23148 (? clks from center to edge of mirror)
     
     .update_mem_o(update_mem_w), // update MEM0 | MEM1
     .laser_trigger_o(laser_trigger_o), // trigger lase beam
