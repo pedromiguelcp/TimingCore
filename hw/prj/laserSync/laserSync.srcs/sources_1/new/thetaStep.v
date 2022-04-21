@@ -117,7 +117,7 @@ fixed_mul #(27,39) mul_uut3 (//thetaIt*mirrorStep
 fixed_sub #(27,32) sub_uut (//thetaM-(thetaIt*mirrorStep)
     .clk_i(clk_i),
     .nrst_i(nrst_i),
-    .valid_i(thetaM_ready_w /*& thetaItStep_ready_w*/),
+    .valid_i(thetaM_ready_w & thetaItStep_ready_w),
     .opA_i(thetaM_w), 
     .opB_i(thetaItStep_w[31:0]), 
     .ready_o(thetaStep_valid_o),
@@ -127,10 +127,6 @@ fixed_sub #(27,32) sub_uut (//thetaM-(thetaIt*mirrorStep)
 //0.0001735687255859375(1)
 //0.00017458200454711914(2)
 //0.00017462670803070068(3)
-//0.000174629953108
-//melhorar o codigo dos módulos de mul/div/add/sub
-//ver se está sintetizavel
-//criar um novo ip para meter thetaStep com output o step e o thetaM
 //testar o resultado nos tickes
 //aumentar resolução se a diferença for significativa
 /*******************************/
