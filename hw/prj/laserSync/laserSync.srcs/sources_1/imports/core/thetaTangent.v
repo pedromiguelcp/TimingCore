@@ -131,50 +131,19 @@ fp_sub fp_thetaStep_sub (
 );
 
 
-
-
-
-
-thetaStep  #(//mandar para fora o thetaM e thetaM-step com base na iteração
-  .THETAMAX_P(THETAMAX_P),
+mirrorStep  #(
   .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
   .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P)
-) thetaStep_uut(
+) mirrorStep_uut(
   .clk_i(clk_i),
   .nrst_i(nrst_i),
+  .thetaM_valid_i(thetaM_valid_w),
+  .thetaM_i(thetaM_w),
   .theta_iteration_valid_i(theta_iteration_valid_i),
   .theta_iteration_i(theta_iteration_i),
 
-  .thetaM_valid_o(thetaM_valid_w),
-  .thetaM_o(thetaM_w),
-  .thetaStep_valid_o(mirrorStep_valid_w),
-  .thetaStep_o(mirrorStep_w)
+  .thetaStep_it_valid_o(mirrorStep_valid_w),
+  .thetaStep_it_o(mirrorStep_w)
 );
 
-/*mirrorStep  #(
-    .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
-    .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P)
-) mirrorStep_uut(
-    .clk_i(clk_i),
-    .nrst_i(nrst_i),
-    .thetaM_valid_i(thetaM_valid_w),
-    .thetaM_i(thetaM_w),
-    .theta_iteration_valid_i(theta_iteration_valid_i),
-    .theta_iteration_i(theta_iteration_i),
-
-    .thetaStep_it_valid_o(mirrorStep_valid_w),
-    .thetaStep_it_o(mirrorStep_w)
-);*/
-
-/*thetaM  #(
-    .THETAMAX_P(THETAMAX_P),
-    .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
-    .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P)
-) thetaM_uut(
-    .clk_i(clk_i),
-    .nrst_i(nrst_i),
-
-    .thetaM_valid_o(thetaM_valid_w),
-    .thetaM_o(thetaM_w)
-);*/
 endmodule
