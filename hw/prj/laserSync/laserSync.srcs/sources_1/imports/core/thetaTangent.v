@@ -131,19 +131,20 @@ fp_sub fp_thetaStep_sub (
 );
 
 
-mirrorStep  #(
+
+thetaStep  #(//mandar para fora o thetaM e thetaM-step com base na iteração
+  .THETAMAX_P(THETAMAX_P),
   .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
   .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P)
-) mirrorStep_uut(
+) thetaStep_uut(
   .clk_i(clk_i),
   .nrst_i(nrst_i),
-  .thetaM_valid_i(thetaM_valid_w),
-  .thetaM_i(thetaM_w),
   .theta_iteration_valid_i(theta_iteration_valid_i),
   .theta_iteration_i(theta_iteration_i),
 
-  .thetaStep_it_valid_o(mirrorStep_valid_w),
-  .thetaStep_it_o(mirrorStep_w)
+  .thetaM_valid_o(thetaM_valid_w),
+  .thetaM_o(thetaM_w),
+  .thetaStep_valid_o(mirrorStep_valid_w),
+  .thetaStep_o(mirrorStep_w)
 );
-
 endmodule
