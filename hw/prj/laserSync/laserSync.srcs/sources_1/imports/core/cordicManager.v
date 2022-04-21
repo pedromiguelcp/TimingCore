@@ -56,7 +56,7 @@ wire            fp_dt_ticks_div_result_tvalid_w;
 wire [31:0]     fp_dt_ticks_div_result_tdata_w;
 
 reg             theta_iteration_valid_r;
-reg  [15:0]     theta_iteration_r;
+reg  [11:0]     theta_iteration_r;
 
 reg         new_dtTick_r, next_dtTick_r;
 reg [1:0]   dtTick_states_r;
@@ -68,17 +68,17 @@ assign  next_dt_Ticks_o  = next_dtTick_r;
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         theta_iteration_valid_r <= 1'b0;
-        theta_iteration_r       <= 16'd0;
+        theta_iteration_r       <= 12'd0;
     end
     else begin
         if(en_cordic_i) begin
-            if(theta_iteration_r <= 16'd0) begin
+            if(theta_iteration_r <= 12'd0) begin
                 theta_iteration_valid_r <= 1'b1;
             end
             
             if(new_dtTick_r) begin
                 theta_iteration_valid_r <= 1'b0;
-                theta_iteration_r       <= theta_iteration_r + 16'd1;
+                theta_iteration_r       <= theta_iteration_r + 12'd1;
             end
             else if(next_dtTick_r) begin
                 theta_iteration_valid_r <= 1'b1;
@@ -86,7 +86,7 @@ always @(posedge clk_i or negedge nrst_i) begin
         end
         else begin
             theta_iteration_valid_r <= 1'b0;
-            theta_iteration_r       <= 16'd0;  
+            theta_iteration_r       <= 12'd0;  
         end
     end
 end

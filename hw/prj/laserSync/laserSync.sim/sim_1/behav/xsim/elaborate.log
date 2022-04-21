@@ -534,10 +534,11 @@ Compiling architecture synth of entity xbip_pipe_v3_0_6.xbip_pipe_v3_0_6_viv [\x
 Compiling architecture xilinx of entity floating_point_v7_1_13.floating_point_v7_1_13_viv [\floating_point_v7_1_13_viv(c_xd...]
 Compiling architecture xilinx of entity floating_point_v7_1_13.floating_point_v7_1_13 [\floating_point_v7_1_13(c_xdevic...]
 Compiling module xil_defaultlib.fp_sub
-Compiling module xil_defaultlib.mirrorStep
-Compiling module xil_defaultlib.fixed_mul(Q=24,N=36)
-Compiling module xil_defaultlib.fixed_div(Q=24,N=36)
-Compiling module xil_defaultlib.thetaM_default
+Compiling module xil_defaultlib.fixed_mul(Q=27)
+Compiling module xil_defaultlib.fixed_div(Q=27,N=39)
+Compiling module xil_defaultlib.fixed_mul(Q=27,N=39)
+Compiling module xil_defaultlib.fixed_sub(Q=27)
+Compiling module xil_defaultlib.thetaStep_default
 Compiling module xil_defaultlib.thetaTangent
 Compiling module xil_defaultlib.cordicManager
 Compiling module xil_defaultlib.edgeDetector
