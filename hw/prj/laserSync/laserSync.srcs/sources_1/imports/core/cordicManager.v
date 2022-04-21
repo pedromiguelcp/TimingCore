@@ -169,8 +169,21 @@ cordic cordicCore_uut (
   .m_axis_dout_tdata(cordic_dout_tdata_w)              // output wire [15 : 0] m_axis_dout_tdata
 );
 
+//output thetaCos based on the mirror iteration step
+thetaCos  #(
+  .THETAMAX_P(THETAMAX_P),
+  .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
+  .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P)
+) thetaStep_uut(
+  .clk_i(clk_i),
+  .nrst_i(nrst_i),
+  .theta_iteration_valid_i(theta_iteration_valid_i),
+  .theta_iteration_i(theta_iteration_i),
 
-thetaTangent  #(
+  .thetaStep_valid_o(mirrorStep_valid_w),
+  .thetaStep_o(mirrorStep_w)
+);
+/*thetaTangent  #(
     .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
     .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P),
     .THETAMAX_P(THETAMAX_P)
@@ -184,6 +197,6 @@ thetaTangent  #(
     .thetaSin_valid_o(thetaSin_valid_w),
     .thetaCos_o(thetaCos_w),
     .thetaSin_o(thetaSin_w)
-);
+);*/
 
 endmodule
