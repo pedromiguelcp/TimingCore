@@ -22,19 +22,19 @@
 //input thetaM and thetaStep
 //output both cos and sin for the cordic IP
 module thetaTangent #(
-    parameter   POINTS_PER_LINE_P   = 360,
-    parameter   NUMBER_OF_FRAMES_P  = 5,
-    parameter   THETAMAX_P          = 9
+  parameter   POINTS_PER_LINE_P   = 360,
+  parameter   NUMBER_OF_FRAMES_P  = 5,
+  parameter   THETAMAX_P          = 9
 )(
-    input           clk_i,
-    input           nrst_i,
-    input           theta_iteration_valid_i,
-    input   [15:0]  theta_iteration_i,
+  input           clk_i,
+  input           nrst_i,
+  input           theta_iteration_valid_i,
+  input   [11:0]  theta_iteration_i,
 
-    output          thetaCos_valid_o,
-    output          thetaSin_valid_o,
-    output  [15:0]  thetaCos_o,
-    output  [15:0]  thetaSin_o
+  output          thetaCos_valid_o,
+  output          thetaSin_valid_o,
+  output  [15:0]  thetaCos_o,
+  output  [15:0]  thetaSin_o
 );
 
 wire            thetaM_valid_w;
@@ -131,46 +131,19 @@ fp_sub fp_thetaStep_sub (
 );
 
 
-/*mirrorStep  #(
-    .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
-    .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P)
+mirrorStep  #(
+  .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
+  .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P)
 ) mirrorStep_uut(
-    .clk_i(clk_i),
-    .nrst_i(nrst_i),
-    .thetaM_valid_i(thetaM_valid_w),
-    .thetaM_i(thetaM_w),
-    .theta_iteration_valid_i(theta_iteration_valid_i),
-    .theta_iteration_i(theta_iteration_i),
+  .clk_i(clk_i),
+  .nrst_i(nrst_i),
+  .thetaM_valid_i(thetaM_valid_w),
+  .thetaM_i(thetaM_w),
+  .theta_iteration_valid_i(theta_iteration_valid_i),
+  .theta_iteration_i(theta_iteration_i),
 
-    .thetaStep_it_valid_o(mirrorStep_valid_w),
-    .thetaStep_it_o(mirrorStep_w)
-);*/
-
-thetaStep  #(//mandar para fora o thetaM e thetaM-step com base na iteração
-    .THETAMAX_P(THETAMAX_P),
-    .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
-    .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P)
-) thetaStep_uut(
-    .clk_i(clk_i),
-    .nrst_i(nrst_i),
-    .theta_iteration_valid_i(theta_iteration_valid_i),
-    .theta_iteration_i(theta_iteration_i),
-
-    .thetaM_valid_o(thetaM_valid_w),
-    .thetaM_o(thetaM_w),
-    .thetaStep_valid_o(mirrorStep_valid_w),
-    .thetaStep_o(mirrorStep_w)
+  .thetaStep_it_valid_o(mirrorStep_valid_w),
+  .thetaStep_it_o(mirrorStep_w)
 );
 
-/*thetaM  #(
-    .THETAMAX_P(THETAMAX_P),
-    .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
-    .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P)
-) thetaM_uut(
-    .clk_i(clk_i),
-    .nrst_i(nrst_i),
-
-    .thetaM_valid_o(thetaM_valid_w),
-    .thetaM_o(thetaM_w)
-);*/
 endmodule
