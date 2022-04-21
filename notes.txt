@@ -1,3 +1,4 @@
+create branches for each operation mode
 substituir todas as constantes pelo valor respetivo no formato floating-point
 validar tudo e comparar com o sw com varios valores de freq_i
 testar de alguma forma no lab talvez
