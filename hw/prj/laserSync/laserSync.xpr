@@ -56,7 +56,7 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="zcu104"/>
-    <Option Name="WTXSimLaunchSim" Val="192"/>
+    <Option Name="WTXSimLaunchSim" Val="198"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -213,6 +213,15 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/imports/core/fixed_sub.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../git/TimingCore/hw/core/fixed_sub.v"/>
+          <Attr Name="ImportTime" Val="1650526942"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/imports/core/laserDriver.v">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../../core/laserDriver.v"/>
@@ -307,6 +316,16 @@
           <Attr Name="ImportPath" Val="$PPRDIR/../../mem files/timeStampInit.coe"/>
           <Attr Name="ImportTime" Val="1645711250"/>
           <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/core/fixed_add.v">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../git/TimingCore/hw/core/fixed_add.v"/>
+          <Attr Name="ImportTime" Val="1650526942"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
