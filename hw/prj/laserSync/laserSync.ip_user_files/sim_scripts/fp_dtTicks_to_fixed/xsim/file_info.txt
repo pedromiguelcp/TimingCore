@@ -1,2 +1,0 @@
-fp_dtTicks_to_fixed.v,verilog,xil_defaultlib,../../../../laserSync.gen/sources_1/ip/fp_dtTicks_to_fixed/sim/fp_dtTicks_to_fixed.v,
-glbl.v,Verilog,xil_defaultlib,glbl.v

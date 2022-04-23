@@ -1,0 +1,24 @@
+0.7
+2020.1
+May 27 2020
+20:09:33
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.sim/sim_1/behav/xsim/glbl.v,1650391268,verilog,,,,glbl,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sim_1/imports/sim/laserSync_tb.v,1650642536,verilog,,,,laserSync_tb,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/activePixelMem.v,1650391269,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/cordicManager.v,,activePixelMem,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/cordicManager.v,1650661195,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/counter.v,,cordicManager,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/counter.v,1650391269,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/edgeDetector.v,,counter,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/edgeDetector.v,1650391269,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_div.v,,edgeDetector,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sqrt.v,1650634877,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sub.v,,fixed_sqrt,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sub.v,1650713275,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserDriver.v,,fixed_sub,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserDriver.v,1650391269,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserSynchronizer.v,,laserDriver,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserSynchronizer.v,1650650260,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/memoryManager.v,,laserSynchronizer,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/memoryManager.v,1650635255,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaCos.v,,memoryManager,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timestampMem.v,1650391269,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timingCore.v,,timestampMem,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timingCore.v,1650391269,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sim_1/imports/sim/laserSync_tb.v,,timingCore,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/activePixelBRAM/sim/activePixelBRAM.v,1650623862,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/timestampBRAM/sim/timestampBRAM.v,,activePixelBRAM,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/cordic/sim/cordic.vhd,1650661075,vhdl,,,,cordic,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/timestampBRAM/sim/timestampBRAM.v,1650623938,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/activePixelMem.v,,timestampBRAM,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_div.v,1650630431,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_mul.v,,fixed_div,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_mul.v,1650630425,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sqrt.v,,fixed_mul,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaCos.v,1650659551,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaSin.v,,thetaCos,,,,,,,,
+C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaSin.v,1650647340,verilog,,C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timestampMem.v,,thetaSin,,,,,,,,
