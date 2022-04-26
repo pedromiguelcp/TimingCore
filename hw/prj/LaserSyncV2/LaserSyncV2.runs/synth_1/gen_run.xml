@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xczu7ev-ffvc1156-2-e" LaunchTime="1650662838">
-  <File Type="PA-TCL" Name="laserSynchronizer.tcl"/>
-  <File Type="RDS-PROPCONSTRS" Name="laserSynchronizer_drc_synth.rpt"/>
-  <File Type="REPORTS-TCL" Name="laserSynchronizer_reports.tcl"/>
-  <File Type="RDS-RDS" Name="laserSynchronizer.vds"/>
-  <File Type="RDS-UTIL" Name="laserSynchronizer_utilization_synth.rpt"/>
-  <File Type="RDS-UTIL-PB" Name="laserSynchronizer_utilization_synth.pb"/>
-  <File Type="RDS-DCP" Name="laserSynchronizer.dcp"/>
+<GenRun Id="synth_1" LaunchPart="xczu7ev-ffvc1156-2-e" LaunchTime="1650959382">
   <File Type="VDS-TIMINGSUMMARY" Name="laserSynchronizer_timing_summary_synth.rpt"/>
+  <File Type="RDS-DCP" Name="laserSynchronizer.dcp"/>
+  <File Type="RDS-UTIL-PB" Name="laserSynchronizer_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="laserSynchronizer_utilization_synth.rpt"/>
+  <File Type="RDS-PROPCONSTRS" Name="laserSynchronizer_drc_synth.rpt"/>
+  <File Type="RDS-RDS" Name="laserSynchronizer.vds"/>
+  <File Type="REPORTS-TCL" Name="laserSynchronizer_reports.tcl"/>
   <File Type="VDS-TIMING-PB" Name="laserSynchronizer_timing_summary_synth.pb"/>
-  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
+  <File Type="PA-TCL" Name="laserSynchronizer.tcl"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/ip/activePixelBRAM/activePixelBRAM.xci">
       <FileInfo>

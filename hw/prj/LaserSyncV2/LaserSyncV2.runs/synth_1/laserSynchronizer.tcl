@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.runs/synth_1/laserSynchronizer.tcl"
+  variable script "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.runs/synth_1/laserSynchronizer.tcl"
   variable category "vivado_synth"
 }
 
@@ -70,7 +70,6 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_msg_config -id {Common 17-41} -limit 10000000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xczu7ev-ffvc1156-2-e
 
@@ -78,42 +77,42 @@ set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
 set_msg_config -source 4 -id {IP_Flow 19-2162} -severity warning -new_severity info
-set_property webtalk.parent_dir C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.cache/wt [current_project]
-set_property parent.project_path C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.xpr [current_project]
+set_property webtalk.parent_dir /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.cache/wt [current_project]
+set_property parent.project_path /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.xpr [current_project]
 set_property XPM_LIBRARIES XPM_MEMORY [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
 set_property board_part xilinx.com:zcu104:part0:1.1 [current_project]
-set_property ip_output_repo c:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.cache/ip [current_project]
+set_property ip_output_repo /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-add_files {{C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/mem files/activePixelsCoeFile.coe}}
-add_files {{C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/mem files/timeStampInit.coe}}
+add_files {{/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/mem files/activePixelsCoeFile.coe}}
+add_files {{/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/mem files/timeStampInit.coe}}
 read_verilog -library xil_defaultlib {
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/activePixelMem.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/cordicManager.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/counter.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/edgeDetector.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_div.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_mul.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sqrt.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sub.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserDriver.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/memoryManager.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaCos.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaSin.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timestampMem.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timingCore.v
-  C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserSynchronizer.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/activePixelMem.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/cordicManager.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/counter.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/edgeDetector.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_div.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_mul.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sqrt.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sub.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserDriver.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/memoryManager.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaCos.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaSin.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timestampMem.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timingCore.v
+  /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserSynchronizer.v
 }
-read_ip -quiet C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/activePixelBRAM/activePixelBRAM.xci
-set_property used_in_implementation false [get_files -all c:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/activePixelBRAM/activePixelBRAM_ooc.xdc]
+read_ip -quiet /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/activePixelBRAM/activePixelBRAM.xci
+set_property used_in_implementation false [get_files -all /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.gen/sources_1/ip/activePixelBRAM/activePixelBRAM_ooc.xdc]
 
-read_ip -quiet C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/timestampBRAM/timestampBRAM.xci
-set_property used_in_implementation false [get_files -all c:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/timestampBRAM/timestampBRAM_ooc.xdc]
+read_ip -quiet /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/timestampBRAM/timestampBRAM.xci
+set_property used_in_implementation false [get_files -all /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.gen/sources_1/ip/timestampBRAM/timestampBRAM_ooc.xdc]
 
-read_ip -quiet C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/cordic/cordic.xci
+read_ip -quiet /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/cordic/cordic.xci
 
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -132,6 +131,9 @@ close [open __synthesis_is_running__ w]
 OPTRACE "synth_design" START { }
 synth_design -top laserSynchronizer -part xczu7ev-ffvc1156-2-e
 OPTRACE "synth_design" END { }
+if { [get_msg_config -count -severity {CRITICAL WARNING}] > 0 } {
+ send_msg_id runtcl-6 info "Synthesis results are not added to the cache due to CRITICAL_WARNING"
+}
 
 
 OPTRACE "write_checkpoint" START { CHECKPOINT }

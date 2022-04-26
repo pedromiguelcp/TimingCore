@@ -2,14 +2,14 @@
 # It contains project source information necessary for synthesis and implementation.
 
 # IP: ip/activePixelBRAM/activePixelBRAM.xci
-set_property DONT_TOUCH TRUE [get_cells -hier -filter {REF_NAME==activePixelBRAM || ORIG_REF_NAME==activePixelBRAM} -quiet] -quiet
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==activePixelBRAM || ORIG_REF_NAME==activePixelBRAM} -quiet] -quiet
 
 # IP: ip/timestampBRAM/timestampBRAM.xci
-set_property DONT_TOUCH TRUE [get_cells -hier -filter {REF_NAME==timestampBRAM || ORIG_REF_NAME==timestampBRAM} -quiet] -quiet
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==timestampBRAM || ORIG_REF_NAME==timestampBRAM} -quiet] -quiet
 
 # IP: ip/cordic/cordic.xci
-set_property DONT_TOUCH TRUE [get_cells -hier -filter {REF_NAME==cordic || ORIG_REF_NAME==cordic} -quiet] -quiet
+set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {REF_NAME==cordic || ORIG_REF_NAME==cordic} -quiet] -quiet
 
-# XDC: ip/activePixelBRAM/activePixelBRAM_ooc.xdc
+# XDC: /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.gen/sources_1/ip/activePixelBRAM/activePixelBRAM_ooc.xdc
 
-# XDC: ip/timestampBRAM/timestampBRAM_ooc.xdc
+# XDC: /home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.gen/sources_1/ip/timestampBRAM/timestampBRAM_ooc.xdc

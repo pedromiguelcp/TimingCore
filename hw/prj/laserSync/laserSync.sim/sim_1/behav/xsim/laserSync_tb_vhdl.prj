@@ -1,6 +1,0 @@
-# compile vhdl design source files
-vhdl xil_defaultlib  \
-"../../../../laserSync.gen/sources_1/ip/cordic/sim/cordic.vhd" \
-
-# Do not sort compile order
-nosort
