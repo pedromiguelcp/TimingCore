@@ -1,0 +1,2 @@
+fp_sub.v,verilog,xil_defaultlib,../../../../laserSync.gen/sources_1/ip/fp_sub/sim/fp_sub.v,
+glbl.v,Verilog,xil_defaultlib,glbl.v

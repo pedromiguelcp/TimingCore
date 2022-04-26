@@ -1,0 +1,6 @@
+verilog xil_defaultlib  \
+"../../../../laserSync.gen/sources_1/ip/fp_mult/sim/fp_mult.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+nosort

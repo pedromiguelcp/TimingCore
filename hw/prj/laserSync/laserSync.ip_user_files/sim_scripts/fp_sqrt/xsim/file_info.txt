@@ -1,0 +1,2 @@
+fp_sqrt.v,verilog,xil_defaultlib,../../../../laserSync.gen/sources_1/ip/fp_sqrt/sim/fp_sqrt.v,
+glbl.v,Verilog,xil_defaultlib,glbl.v
