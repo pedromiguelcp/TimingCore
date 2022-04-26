@@ -1,1 +1,1 @@
-cordic.vhd,vhdl,xil_defaultlib,../../../../LaserSyncV2.gen/sources_1/ip/cordic/sim/cordic.vhd,
+cordic.vhd,vhdl,xil_defaultlib,../../../../LaserSyncV2.srcs/sources_1/ip/cordic/sim/cordic.vhd,

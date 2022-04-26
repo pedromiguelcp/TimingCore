@@ -57,8 +57,8 @@ always @(posedge clk_r or negedge nrst_r) begin
         cnt_clock_tick_r    <= 16'd0;
         zc_r                <= 1'b0;
 
-        valid_r             <= 1'b0;
-        aux_r               <= 1'b0;
+        //valid_r             <= 1'b0;
+        //aux_r               <= 1'b0;
     end
     else begin
         if(cnt_clock_tick_r < SYS_MIRROR_RATIO_P/2)begin
@@ -69,21 +69,24 @@ always @(posedge clk_r or negedge nrst_r) begin
             zc_r <= ~zc_r;
         end
 
-        valid_r             <= 1'b1;
-        aux_r               <= 1'b1;
+        //valid_r             <= 1'b1;
+        //aux_r               <= 1'b1;
     end
 end
 
 //cos
 //0010000000000000
+//1100011101100110
 //sin
 //0011011101101100
+//0001110111011111
 //cordic
 //0010000110000010(59.9)
+//0101010011111110
 
-//001010101010101001111(76)
-
-wire    [(21-1):0]  phase_w;
+//00010000110000010011111011
+//0010.1010011111101111111010
+/*wire    [(26-1):0]  phase_w;
 wire    [(16-1):0]  mag_w;
 wire                aux_w;
 reg                 valid_r;
@@ -95,13 +98,13 @@ arcTan arcTan_uut
     .clk_i(clk_r),
     .nrst_i(nrst_r),
     .valid_i(valid_r),
-    .cos_i(16'b0010000000000000),
-    .sin_i(16'b0011011101101100),
+    .cos_i(16'b1100011101100110),
+    .sin_i(16'b0001110111011111),
     .aux_i(aux_r),
     //.mag_o(mag_w),
     .phase_o(phase_w),
     .aux_o(aux_w)
-);
+);*/
 
 /*
 integer f0, f1, f2, f3, f4;

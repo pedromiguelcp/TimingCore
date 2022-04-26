@@ -208,7 +208,7 @@ assign active_pixel_o = (mem_grp_r == 3'b000)   ?   active_pixel_w[0]  :
                         (mem_grp_r == 3'b011)   ?   active_pixel_w[3]  :
                         (mem_grp_r == 3'b100)   ?   active_pixel_w[4]  :    active_pixel_w[0];
 
-/*integer f0, f1, f2, f3, f4;
+integer f0, f1, f2, f3, f4;
 initial begin
   f0 = $fopen("dt_Ticks_Frame0.txt","w");
   f1 = $fopen("dt_Ticks_Frame1.txt","w");
@@ -241,5 +241,5 @@ always @(posedge clk_i) begin
         $fclose(f3);
         $fclose(f4);
     end
-end*/
+end
 endmodule

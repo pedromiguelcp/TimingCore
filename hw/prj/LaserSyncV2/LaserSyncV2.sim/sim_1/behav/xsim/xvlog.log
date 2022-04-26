@@ -1,42 +1,38 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.gen/sources_1/ip/activePixelBRAM/sim/activePixelBRAM.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/activePixelBRAM/sim/activePixelBRAM.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module activePixelBRAM
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.gen/sources_1/ip/timestampBRAM/sim/timestampBRAM.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/ip/timestampBRAM/sim/timestampBRAM.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module timestampBRAM
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/activePixelMem.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/activePixelMem.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module activePixelMem
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/arcTan.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/new/arcTan.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module arcTan
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/cordicManager.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/cordicManager.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module cordicManager
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/counter.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/counter.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module counter
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/edgeDetector.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/edgeDetector.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module edgeDetector
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_div.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_div.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fixed_div
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_mul.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/fixed_mul.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fixed_mul
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sqrt.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sqrt.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fixed_sqrt
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sub.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/fixed_sub.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fixed_sub
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserDriver.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserDriver.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module laserDriver
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserSynchronizer.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/laserSynchronizer.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module laserSynchronizer
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/memoryManager.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/memoryManager.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module memoryManager
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaCos.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaCos.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module thetaCos
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaSin.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/new/thetaSin.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module thetaSin
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timestampMem.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timestampMem.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module timestampMem
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timingCore.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sources_1/imports/core/timingCore.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module timingCore
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sim_1/imports/sim/laserSync_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Pedro/OneDrive/PrePhD/Mirror/LaserSyncV2/LaserSyncV2.srcs/sim_1/imports/sim/laserSync_tb.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module laserSync_tb
-WARNING: [VRFC 10-3380] identifier 'valid_r' is used before its declaration [/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sim_1/imports/sim/laserSync_tb.v:60]
-WARNING: [VRFC 10-3380] identifier 'aux_r' is used before its declaration [/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sim_1/imports/sim/laserSync_tb.v:61]
-WARNING: [VRFC 10-3380] identifier 'valid_r' is used before its declaration [/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sim_1/imports/sim/laserSync_tb.v:72]
-WARNING: [VRFC 10-3380] identifier 'aux_r' is used before its declaration [/home/p12-bosch/cordic/LaserSyncV2/LaserSyncV2.srcs/sim_1/imports/sim/laserSync_tb.v:73]

@@ -1,2 +1,2 @@
-activePixelBRAM.v,verilog,xil_defaultlib,../../../../LaserSyncV2.gen/sources_1/ip/activePixelBRAM/sim/activePixelBRAM.v,
+activePixelBRAM.v,verilog,xil_defaultlib,../../../../LaserSyncV2.srcs/sources_1/ip/activePixelBRAM/sim/activePixelBRAM.v,
 glbl.v,Verilog,xil_defaultlib,glbl.v

@@ -72,7 +72,7 @@ always @(posedge clk_i or negedge nrst_i) begin
   end
   else begin
     if(en_cordic_i) begin
-      if(theta_iteration_r <= 12'd0) begin//freq_i always changing, read here to prevent misscalculations
+      if(theta_iteration_r <= 12'd0) begin
         theta_iteration_valid_r <= 1'b1;
       end
       
@@ -119,21 +119,33 @@ fixed_mul #(13,32) mul_uut (//arctang*freq_i
   .clk_i(clk_i),
   .nrst_i(nrst_i),
   .valid_i(cordic_dout_tvalid_w),
-  .opA_i({16'd0, ((cordic_dout_tdata_w == 16'b1111111111111111) ? 16'b0000000000000000 : cordic_dout_tdata_w)}), 
+  .opA_i({16'd0, ((cordic_dout_tdata_w == 16'b1111111111111111) ? 16'b0000000000000000 : cordic_dout_tdata_w)}),
   .opB_i({freq_i[18:0], 13'd0}), 
   .ready_o(pre_dtTicks_valid_w),
   .result_o(pre_dtTicks_w)
 );
 
+arcTan arcTan_uut
+(
+  .clk_i(clk_i),
+  .nrst_i(nrst_i),
+  .valid_i(thetaCos_valid_w & thetaSin_valid_w),
+  .cos_i(cordic_cos_w),
+  .sin_i(cordic_sin_w),
+  //.aux_i(thetaCos_valid_w & thetaSin_valid_w),
+  //.mag_o(mag_w),
+  .phase_o(cordic_dout_tdata_w),
+  .aux_o(cordic_dout_tvalid_w)
+);
 
-cordic cordicCore_uut (
+/*cordic cordicCore_uut (
   .aclk(clk_i),                                       
   .aresetn(nrst_i),                                
   .s_axis_cartesian_tvalid(thetaCos_valid_w & thetaSin_valid_w),  
-  .s_axis_cartesian_tdata({16'b0011011101101100, 16'b0010000000000000}),
+  .s_axis_cartesian_tdata({cordic_sin_w, cordic_cos_w}),
   .m_axis_dout_tvalid(cordic_dout_tvalid_w),            
   .m_axis_dout_tdata(cordic_dout_tdata_w)             
-);
+);*/
 
 //output thetaCos based on the mirror iteration step
 thetaCos  #(

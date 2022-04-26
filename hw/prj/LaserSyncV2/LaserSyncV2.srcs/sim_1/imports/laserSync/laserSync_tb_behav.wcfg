@@ -11,71 +11,71 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
-      <ZoomEndTime time="8.591758 us"></ZoomEndTime>
-      <Cursor1Time time="1.200000 us"></Cursor1Time>
+      <ZoomStartTime time="1690438500fs"></ZoomStartTime>
+      <ZoomEndTime time="3631657501fs"></ZoomEndTime>
+      <Cursor1Time time="3308121000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="172"></NameColumnWidth>
-      <ValueColumnWidth column_width="67"></ValueColumnWidth>
+      <ValueColumnWidth column_width="75"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="26" />
-   <wvobject type="logic" fp_name="/laserSync_tb/clk_r">
+   <WVObjectSize size="24" />
+   <wvobject fp_name="/laserSync_tb/clk_r" type="logic">
       <obj_property name="ElementShortName">clk_r</obj_property>
       <obj_property name="ObjectShortName">clk_r</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/nrst_r">
+   <wvobject fp_name="/laserSync_tb/nrst_r" type="logic">
       <obj_property name="ElementShortName">nrst_r</obj_property>
       <obj_property name="ObjectShortName">nrst_r</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/LS_uut/TC_uut/zc_i">
+   <wvobject fp_name="/laserSync_tb/LS_uut/TC_uut/zc_i" type="logic">
       <obj_property name="ElementShortName">zc_i</obj_property>
       <obj_property name="ObjectShortName">zc_i</obj_property>
       <obj_property name="CustomSignalColor">#DCDCDC</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/LS_uut/line_completed_w">
+   <wvobject fp_name="/laserSync_tb/LS_uut/line_completed_w" type="logic">
       <obj_property name="ElementShortName">line_completed_w</obj_property>
       <obj_property name="ObjectShortName">line_completed_w</obj_property>
       <obj_property name="CustomSignalColor">#A52A2A</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/LS_uut/laser_trigger_o">
+   <wvobject fp_name="/laserSync_tb/LS_uut/laser_trigger_o" type="logic">
       <obj_property name="ElementShortName">laser_trigger_o</obj_property>
       <obj_property name="ObjectShortName">laser_trigger_o</obj_property>
       <obj_property name="CustomSignalColor">#A52A2A</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/LS_uut/TC_uut/cnt_w">
+   <wvobject fp_name="/laserSync_tb/LS_uut/TC_uut/cnt_w" type="array">
       <obj_property name="ElementShortName">cnt_w[15:0]</obj_property>
       <obj_property name="ObjectShortName">cnt_w[15:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFD700</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/LS_uut/we_r">
+   <wvobject fp_name="/laserSync_tb/LS_uut/we_r" type="logic">
       <obj_property name="ElementShortName">we_r</obj_property>
       <obj_property name="ObjectShortName">we_r</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/LS_uut/wdata_dtTicks_o">
+   <wvobject fp_name="/laserSync_tb/LS_uut/wdata_dtTicks_o" type="array">
       <obj_property name="ElementShortName">wdata_dtTicks_o[15:0]</obj_property>
       <obj_property name="ObjectShortName">wdata_dtTicks_o[15:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
       <obj_property name="CellHeight">100</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/LS_uut/waddr_dtTicks_o">
+   <wvobject fp_name="/laserSync_tb/LS_uut/waddr_dtTicks_o" type="array">
       <obj_property name="ElementShortName">waddr_dtTicks_o[10:0]</obj_property>
       <obj_property name="ObjectShortName">waddr_dtTicks_o[10:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/LS_uut/update_mem_w">
+   <wvobject fp_name="/laserSync_tb/LS_uut/update_mem_w" type="logic">
       <obj_property name="ElementShortName">update_mem_w</obj_property>
       <obj_property name="ObjectShortName">update_mem_w</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/LS_uut/CM_uut/theta_iteration_r">
+   <wvobject fp_name="/laserSync_tb/LS_uut/CM_uut/theta_iteration_r" type="array">
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="ElementShortName">theta_iteration_r[11:0]</obj_property>
       <obj_property name="ObjectShortName">theta_iteration_r[11:0]</obj_property>
@@ -84,84 +84,73 @@
       <obj_property name="label">theta_iteration_r/laserSync_tb/LS_uut/CM_uut/theta_iteration_r[11:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/LS_uut/CM_uut/theta_iteration_valid_r">
+   <wvobject fp_name="/laserSync_tb/LS_uut/CM_uut/theta_iteration_valid_r" type="logic">
       <obj_property name="ElementShortName">theta_iteration_valid_r</obj_property>
       <obj_property name="ObjectShortName">theta_iteration_valid_r</obj_property>
       <obj_property name="CustomSignalColor">#808000</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/LS_uut/CM_uut/cordic_cos_w">
+   <wvobject fp_name="/laserSync_tb/LS_uut/CM_uut/cordic_cos_w" type="array">
       <obj_property name="ElementShortName">cordic_cos_w[15:0]</obj_property>
       <obj_property name="ObjectShortName">cordic_cos_w[15:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
-      <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/LS_uut/CM_uut/thetaCos_valid_w">
+   <wvobject fp_name="/laserSync_tb/LS_uut/CM_uut/thetaCos_valid_w" type="logic">
       <obj_property name="ElementShortName">thetaCos_valid_w</obj_property>
       <obj_property name="ObjectShortName">thetaCos_valid_w</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/LS_uut/CM_uut/cordic_sin_w">
+   <wvobject fp_name="/laserSync_tb/LS_uut/CM_uut/cordic_sin_w" type="array">
       <obj_property name="ElementShortName">cordic_sin_w[15:0]</obj_property>
       <obj_property name="ObjectShortName">cordic_sin_w[15:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
-      <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/LS_uut/CM_uut/thetaSin_valid_w">
+   <wvobject fp_name="/laserSync_tb/LS_uut/CM_uut/thetaSin_valid_w" type="logic">
       <obj_property name="ElementShortName">thetaSin_valid_w</obj_property>
       <obj_property name="ObjectShortName">thetaSin_valid_w</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/LS_uut/CM_uut/cordic_dout_tdata_w">
+   <wvobject fp_name="/laserSync_tb/LS_uut/CM_uut/cordic_dout_tdata_w" type="array">
       <obj_property name="ElementShortName">cordic_dout_tdata_w[15:0]</obj_property>
       <obj_property name="ObjectShortName">cordic_dout_tdata_w[15:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
-      <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/LS_uut/CM_uut/cordic_dout_tvalid_w">
+   <wvobject fp_name="/laserSync_tb/LS_uut/CM_uut/cordic_dout_tvalid_w" type="logic">
       <obj_property name="ElementShortName">cordic_dout_tvalid_w</obj_property>
       <obj_property name="ObjectShortName">cordic_dout_tvalid_w</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/LS_uut/TC_uut/memoryManager_inst/memory_selector_i">
+   <wvobject fp_name="/laserSync_tb/LS_uut/TC_uut/memoryManager_inst/memory_selector_i" type="array">
       <obj_property name="ElementShortName">memory_selector_i[2:0]</obj_property>
       <obj_property name="ObjectShortName">memory_selector_i[2:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/LS_uut/TC_uut/memoryManager_inst/mem_grp_r">
+   <wvobject fp_name="/laserSync_tb/LS_uut/TC_uut/memoryManager_inst/mem_grp_r" type="array">
       <obj_property name="ElementShortName">mem_grp_r[2:0]</obj_property>
       <obj_property name="ObjectShortName">mem_grp_r[2:0]</obj_property>
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/LS_uut/TC_uut/memoryManager_inst/update_mem_r">
+   <wvobject fp_name="/laserSync_tb/LS_uut/TC_uut/memoryManager_inst/update_mem_r" type="logic">
       <obj_property name="ElementShortName">update_mem_r</obj_property>
       <obj_property name="ObjectShortName">update_mem_r</obj_property>
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/LS_uut/TC_uut/memoryManager_inst/mem_sel_cur_state_r">
+   <wvobject fp_name="/laserSync_tb/LS_uut/TC_uut/memoryManager_inst/mem_sel_cur_state_r" type="array">
       <obj_property name="ElementShortName">mem_sel_cur_state_r[1:0]</obj_property>
       <obj_property name="ObjectShortName">mem_sel_cur_state_r[1:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/arcTan_uut/valid_i">
-      <obj_property name="ElementShortName">valid_i</obj_property>
-      <obj_property name="ObjectShortName">valid_i</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/arcTan_uut/aux_i">
-      <obj_property name="ElementShortName">aux_i</obj_property>
-      <obj_property name="ObjectShortName">aux_i</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/laserSync_tb/arcTan_uut/phase_o">
-      <obj_property name="ElementShortName">phase_o[20:0]</obj_property>
-      <obj_property name="ObjectShortName">phase_o[20:0]</obj_property>
+   <wvobject fp_name="/laserSync_tb/LS_uut/CM_uut/arcTan_uut/ax" type="array">
+      <obj_property name="ElementShortName">ax[18:0]</obj_property>
+      <obj_property name="ObjectShortName">ax[18:0]</obj_property>
       <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/laserSync_tb/arcTan_uut/aux_o">
-      <obj_property name="ElementShortName">aux_o</obj_property>
-      <obj_property name="ObjectShortName">aux_o</obj_property>
+   <wvobject fp_name="/laserSync_tb/LS_uut/CM_uut/arcTan_uut/valid_i" type="logic">
+      <obj_property name="ElementShortName">valid_i</obj_property>
+      <obj_property name="ObjectShortName">valid_i</obj_property>
    </wvobject>
 </wave_config>
