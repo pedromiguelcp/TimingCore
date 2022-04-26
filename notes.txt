@@ -1,15 +1,7 @@
-substituir todas as constantes pelo valor respetivo no formato floating-point
-validar tudo e comparar com o sw com varios valores de freq_i
 testar de alguma forma no lab talvez
-pensar que alterações podem ser feitas
-    menor resolução dos floating-points
-    resolução do cordic
-    uso de fixed-point nas operações
-    implementação do cordic
+implementação do cordic
 falar com o abilio/Rui sobre a primeira iteração e sugestoes
 
-testar multiplicações com fixed-point e tentar migrar as operaçoes aritméticas 
-	ir vendo quanta resolução perco em termos de ticks
 
 
 
@@ -20,3 +12,4 @@ primeiro timestamp = 0
 sincronização entre mirror e board no estado inicial
 delay para começar a disparar antes era /2 agora esta /4
 custom-cordic sera mais tarde implementado
+calcular só metade dos ticks
