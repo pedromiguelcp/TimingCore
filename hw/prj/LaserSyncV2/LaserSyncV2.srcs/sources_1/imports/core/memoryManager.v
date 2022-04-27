@@ -242,4 +242,5 @@ always @(posedge clk_i) begin
         $fclose(f4);
     end
 end
+
 endmodule

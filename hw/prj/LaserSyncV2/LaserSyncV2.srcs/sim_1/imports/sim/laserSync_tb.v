@@ -56,9 +56,6 @@ always @(posedge clk_r or negedge nrst_r) begin
     if(~nrst_r) begin
         cnt_clock_tick_r    <= 16'd0;
         zc_r                <= 1'b0;
-
-        //valid_r             <= 1'b0;
-        //aux_r               <= 1'b0;
     end
     else begin
         if(cnt_clock_tick_r < SYS_MIRROR_RATIO_P/2)begin
@@ -68,43 +65,20 @@ always @(posedge clk_r or negedge nrst_r) begin
             cnt_clock_tick_r <= 16'd0;
             zc_r <= ~zc_r;
         end
-
-        //valid_r             <= 1'b1;
-        //aux_r               <= 1'b1;
     end
 end
-
-//cos
-//0010000000000000
-//1100011101100110
-//sin
-//0011011101101100
-//0001110111011111
-//cordic
-//0010000110000010(59.9)
-//0101010011111110
-
-//00010000110000010011111011
-//0010.1010011111101111111010
-/*wire    [(26-1):0]  phase_w;
-wire    [(16-1):0]  mag_w;
-wire                aux_w;
-reg                 valid_r;
-reg                 aux_r;
-
-
-arcTan arcTan_uut
-(
-    .clk_i(clk_r),
-    .nrst_i(nrst_r),
-    .valid_i(valid_r),
-    .cos_i(16'b1100011101100110),
-    .sin_i(16'b0001110111011111),
-    .aux_i(aux_r),
-    //.mag_o(mag_w),
-    .phase_o(phase_w),
-    .aux_o(aux_w)
-);*/
+/*
+nao começar com o numero de ticks=0 para nao disparar nas pontas
+o que conta sao o numero de pontos por isso ele conta sempre os 360
+conta para um lado e para o outro
+ver diferença de ticks nas varias regioes
+contar clock cycles para cada operação
+    fazer diagrama temporal
+explicar com exemplos pq os ticks têm de começar com step 0
+    senao fica o frame mais para o outro lado e existe na mesma a distorção
+    alem disso é só 1 coluna de pontos no meio de 1800*100
+maquina de estados vai logo para o trigger antes de esperar pelo 1º dt_tick
+*/
 
 /*
 integer f0, f1, f2, f3, f4;

@@ -44,30 +44,30 @@ module laserSynchronizer #(
         output [10:0] waddr_dtTicks_o
 );
 
-reg     [10:0]  waddr_r;
-reg     [16:0]  wdata_r;
-reg             we_r;
-reg     [2:0]   memory_selector_r;
-reg             mem_updated_r;
-wire    [15:0]  quarter_mirror_cycle_delay_w;
-wire            update_mem_w, line_completed_w;
+reg  [10:0] waddr_r;
+reg  [16:0] wdata_r;
+wire [15:0] quarter_mirror_cycle_delay_w;
+reg  [2:0]  mem_select_r;
+reg         we_r;
+reg         mem_updated_r;
+wire        update_mem_w, line_completed_w;
 
 assign wedata_dtTicks_o = we_r;
 assign wdata_dtTicks_o = wdata_r[15:0];
 assign waddr_dtTicks_o = waddr_r;
 
-wire    [2:0]   nxt_state_w;
-reg     [2:0]   cur_state_r;
-reg     [1:0]   mem_switch_r;
-reg             ticks_update_r;
-reg             mem_update_over_r;
-reg             active_pixel_r;
-reg     [18:0]  previous_dt_ticks_r [0:NUMBER_OF_FRAMES_P-1];
-reg             en_cordic_r;
-wire            dt_Ticks_valid_w;
-wire            next_dt_Ticks_w;
-wire    [18:0]  dt_Ticks_w;
-integer i;
+wire [2:0]  nxt_state_w;
+reg  [2:0]  cur_state_r;
+reg  [1:0]  mem_switch_r;
+reg  [18:0] last_ticks_r [0:NUMBER_OF_FRAMES_P-1];
+wire [18:0] dt_Ticks_w;
+reg         ticks_update_r;
+reg         mem_update_over_r;
+reg         active_pixel_r;
+reg         en_cordic_r;
+wire        dt_Ticks_valid_w;
+wire        next_dt_Ticks_w;
+integer     i;
 
 //STATE MACHINE
 assign nxt_state_w  =   (cur_state_r == `IDLE & ~ticks_update_r)            ?   `IDLE       :
@@ -75,7 +75,7 @@ assign nxt_state_w  =   (cur_state_r == `IDLE & ~ticks_update_r)            ?   
                         (cur_state_r == `MEM_UPDATE & ~mem_update_over_r)   ?   `MEM_UPDATE :
                         (cur_state_r == `MEM_UPDATE & mem_update_over_r)    ?   `IDLE       :   `IDLE;
 
-assign quarter_mirror_cycle_delay_w = freq_i >> 2; // (freq/2)
+assign quarter_mirror_cycle_delay_w = freq_i >> 2; // (freq/4)
 
 
 always @(posedge clk_i or negedge nrst_i) begin
@@ -117,14 +117,14 @@ end
 //Memory update
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
-        waddr_r             <= 11'd0;
-        wdata_r             <= 17'd0;
-        we_r                <= 1'b0;
-        active_pixel_r      <= 1'b1; //allways on for now
-        memory_selector_r   <= 3'b000;
-        en_cordic_r         <= 1'b0;
+        waddr_r         <= 11'd0;
+        wdata_r         <= 17'd0;
+        we_r            <= 1'b0;
+        active_pixel_r  <= 1'b1; //allways on for now
+        mem_select_r    <= 3'b000;
+        en_cordic_r     <= 1'b0;
         for (i = 0; i < NUMBER_OF_FRAMES_P; i = i + 1) begin
-            previous_dt_ticks_r[i] <= 19'd0;
+            last_ticks_r[i] <= 19'd0;
         end
     end
     else begin
@@ -132,17 +132,17 @@ always @(posedge clk_i or negedge nrst_i) begin
             if(dt_Ticks_valid_w) begin
                 we_r            <= 1'b1;
                 wdata_r[16]     <= active_pixel_r;
-                wdata_r[15:0]   <= dt_Ticks_w - previous_dt_ticks_r[memory_selector_r];
-                previous_dt_ticks_r[memory_selector_r]  <= dt_Ticks_w;
+                wdata_r[15:0]   <= dt_Ticks_w - last_ticks_r[mem_select_r];
+                last_ticks_r[mem_select_r]  <= dt_Ticks_w;
 
             end
             else if(next_dt_Ticks_w) begin
-                if(memory_selector_r < (NUMBER_OF_FRAMES_P - 1)) begin
-                    memory_selector_r <= memory_selector_r + 1'b1;
+                if(mem_select_r < (NUMBER_OF_FRAMES_P - 1)) begin
+                    mem_select_r <= mem_select_r + 1'b1;
                 end
                 else begin
                     waddr_r <= waddr_r + 1'b1;
-                    memory_selector_r <= 3'b000;
+                    mem_select_r <= 3'b000;
                 end
 
             end
@@ -159,9 +159,9 @@ always @(posedge clk_i or negedge nrst_i) begin
             waddr_r     <= 11'd0;
             wdata_r     <= 17'd0;
             we_r        <= 1'b0;
-            memory_selector_r   <= 3'b000;
+            mem_select_r   <= 3'b000;
             for (i = 0; i < NUMBER_OF_FRAMES_P; i = i + 1) begin
-                previous_dt_ticks_r[i] <= 19'd0;
+                last_ticks_r[i] <= 19'd0;
             end
         end
     end
@@ -207,7 +207,7 @@ timingCore TC_uut(
     .waddr_i(waddr_r), // address to write ticks in memory
     .wdata_i(wdata_r), // {dt_ticks [15:0], active_pixel [16:16]} 
     .we_i(we_r), // enable memory write (just send a singal?)
-    .memory_selector_i(memory_selector_r), // select MEM0 | MEM1
+    .memory_selector_i(mem_select_r), // select MEM0 | MEM1
     .mem_updated_i(mem_updated_r), // memory enable (enable switch between mems)
     .points_per_line_i(POINTS_PER_LINE_P[9:0]-1'b1), // 360
     .lines_per_frame_i(LINES_PER_FRAME_P[7:0]-1'b1), // 100

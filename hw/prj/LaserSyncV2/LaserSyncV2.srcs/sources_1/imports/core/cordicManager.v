@@ -41,7 +41,6 @@ reg [11:0]  theta_iteration_r;
 reg         new_dtTick_r, next_dtTick_r;
 reg [1:0]   dtTick_states_r;
 
-
 wire        thetaCos_valid_w;
 wire [33:0] thetaCos_w;
 wire        thetaSin_valid_w;
@@ -67,8 +66,8 @@ assign cordic_sin_w = thetaSin_w[33:18];
 
 always @(posedge clk_i or negedge nrst_i) begin
   if(~nrst_i) begin
-      theta_iteration_valid_r <= 1'b0;
-      theta_iteration_r       <= 12'd0;
+    theta_iteration_valid_r <= 1'b0;
+    theta_iteration_r       <= 12'd0;
   end
   else begin
     if(en_cordic_i) begin
@@ -106,7 +105,7 @@ always @(posedge clk_i or negedge nrst_i) begin
 end
 
 
-fixed_div #(20,39) div_uut (//arctang*freq_i/(2*pi)
+fixed_div #(20,39) div_uut(//arctang*freq_i/(2*pi)
   .clk_i(clk_i),
   .nrst_i(nrst_i),
   .valid_i(pre_dtTicks_valid_w), 
@@ -115,7 +114,8 @@ fixed_div #(20,39) div_uut (//arctang*freq_i/(2*pi)
   .ready_o(dtTicks_valid_w),
   .result_o(dtTicks_w)
 );
-fixed_mul #(13,32) mul_uut (//arctang*freq_i
+
+fixed_mul #(13,32) mul_uut(//arctang*freq_i
   .clk_i(clk_i),
   .nrst_i(nrst_i),
   .valid_i(cordic_dout_tvalid_w),
@@ -125,27 +125,15 @@ fixed_mul #(13,32) mul_uut (//arctang*freq_i
   .result_o(pre_dtTicks_w)
 );
 
-arcTan arcTan_uut
-(
+arcTan arcTan_uut(
   .clk_i(clk_i),
   .nrst_i(nrst_i),
   .valid_i(thetaCos_valid_w & thetaSin_valid_w),
   .cos_i(cordic_cos_w),
   .sin_i(cordic_sin_w),
-  //.aux_i(thetaCos_valid_w & thetaSin_valid_w),
-  //.mag_o(mag_w),
   .phase_o(cordic_dout_tdata_w),
-  .aux_o(cordic_dout_tvalid_w)
+  .atang_valid_o(cordic_dout_tvalid_w)
 );
-
-/*cordic cordicCore_uut (
-  .aclk(clk_i),                                       
-  .aresetn(nrst_i),                                
-  .s_axis_cartesian_tvalid(thetaCos_valid_w & thetaSin_valid_w),  
-  .s_axis_cartesian_tdata({cordic_sin_w, cordic_cos_w}),
-  .m_axis_dout_tvalid(cordic_dout_tvalid_w),            
-  .m_axis_dout_tdata(cordic_dout_tdata_w)             
-);*/
 
 //output thetaCos based on the mirror iteration step
 thetaCos  #(
