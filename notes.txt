@@ -1,15 +1,21 @@
-testar de alguma forma no lab talvez
-implementação do cordic
-falar com o abilio/Rui sobre a primeira iteração e sugestoes
-
-
-
-
-
-/*duvidas*/
 timing core primeira iteração no estado Trigger
 primeiro timestamp = 0
-sincronização entre mirror e board no estado inicial
-delay para começar a disparar antes era /2 agora esta /4
-custom-cordic sera mais tarde implementado
 calcular só metade dos ticks
+
+nao começar com o numero de ticks=0 para nao disparar nas pontas
+o que conta sao o numero de pontos por isso ele conta sempre os 360
+conta para um lado e para o outro
+ver diferença de ticks nas varias regioes
+contar clock cycles para cada operação
+    fazer diagrama temporal
+explicar com exemplos pq os ticks têm de começar com step 0
+    senao fica o frame mais para o outro lado e existe na mesma a distorção
+    alem disso é só 1 coluna de pontos no meio de 1800*100
+maquina de estados vai logo para o trigger antes de esperar pelo 1º dt_tick
+
+tem de haver organização dos dados pq eles estão direitos e invertidos
+nas extremidades do FOV não era preciso ser tao intercalado pq o feixe tem tempo de chegar
+    para menor complexidade referencia sera o meio
+    medir exatamente o tempo entre disparos na versao sequencial
+numero de pontos por linha tem de estar em concordancia com o numero de colunas (20, 360; 19, 361)
+

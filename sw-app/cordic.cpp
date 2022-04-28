@@ -9,7 +9,7 @@
 #define THETAMAX 9 //maximum mechanical angular deflection
 #define SYSCLOCK 500000000 //500MHz clock
 #define FRAME_COLUMNS 360
-#define NUMBER_OF_FRAMES 5//originally 5
+#define NUMBER_OF_FRAMES 5
 #define TOTALPOINTS (FRAME_COLUMNS*NUMBER_OF_FRAMES)
 #define POINTS_PER_LINE 20
 #define NUMBER_OF_PASSAGES (FRAME_COLUMNS/POINTS_PER_LINE)
@@ -198,14 +198,24 @@ int main(int argc, char *argv[]) {
 
 						/***************************************/
 						myaddr = (k*NUMBER_OF_PASSAGES) + myiterator;
-						if(k == 0){
+						if(myaddr==0 && j==0){//just the first passage
 							mydt_ticks = temp[i][myaddr];
 							my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << myaddr << "]" << std::endl;
 						}
-						else{
-							mydt_ticks = temp[i][myaddr] - temp[i][myprev_addr];
-							my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << myaddr << "] - temp["  << i << "][" << myprev_addr << "]" << std::endl;
+						else
+						{
+							if(k == 0){
+								//mydt_ticks = temp[i][FRAME_COLUMNS-1] - temp[i][myprev_addr] + temp[i][myaddr];
+								mydt_ticks = temp[i][myaddr] - temp[i][myprev_addr] + temp[i][FRAME_COLUMNS-1];
+								my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << FRAME_COLUMNS-1 << "] - temp["  << i << "][" << myprev_addr << "] + temp["  << i << "][" << myaddr << "]" << std::endl;
+							}
+							else{
+								mydt_ticks = temp[i][myaddr] - temp[i][myprev_addr];
+								my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << myaddr << "] - temp["  << i << "][" << myprev_addr << "]" << std::endl;
+							}
 						}
+						
+
 						/***************************************/
 						arrange_ticks_file << dt_ticks << std::endl;
 						my_arrange_ticks_file << mydt_ticks << std::endl;
@@ -221,13 +231,13 @@ int main(int argc, char *argv[]) {
 						myprev_addr=myaddr;
 						addr_aux++;
 					}
-					myiterator++;
 					if(order == 0){
 						order = 1;
 					}
 					else{
 						order = 0;
 						iterator++;
+					myiterator++;
 					}
 				}
 
