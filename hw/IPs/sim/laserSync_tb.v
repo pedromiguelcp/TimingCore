@@ -22,13 +22,15 @@
 module laserSync_tb #
 (
     parameter   SYSCLOCK_P          = 500000000, //500MHz
-    parameter   POINTS_PER_LINE_P   = 360,
-    parameter   LINES_PER_FRAME_P   = 13,
-    parameter   NUMBER_OF_FRAMES_P  = 5,
+    parameter   THETAMAX_P          = 9,
+    parameter   FRAME_COLUMNS_P     = 360,
+    parameter   FRAME_LINES_P       = 100,
+    parameter   FRAME_NUMBER_P      = 5,
     parameter   MEM_CYCLES_P        = 13,
     parameter   PULSE_LENGTH_P      = 5,
-    parameter   THETAMAX_P          = 9,
+    parameter   LINE_POINTS_P       = 20,
     parameter   MIRROR_FREQ_P       = 10800,
+    localparam  PASSAGES_P          = (FRAME_COLUMNS_P/LINE_POINTS_P),
     localparam  SYS_MIRROR_RATIO_P  = (SYSCLOCK_P/MIRROR_FREQ_P)
 )();
 
@@ -52,7 +54,6 @@ initial begin
 end
 
 always #1 clk_r = ~clk_r; // 500MHz
-
 always @(posedge clk_r or negedge nrst_r) begin
     if(~nrst_r) begin
         cnt_clock_tick_r    <= 16'd0;
@@ -68,6 +69,18 @@ always @(posedge clk_r or negedge nrst_r) begin
         end
     end
 end
+/*
+nao começar com o numero de ticks=0 para nao disparar nas pontas
+o que conta sao o numero de pontos por isso ele conta sempre os 360
+conta para um lado e para o outro
+ver diferença de ticks nas varias regioes
+contar clock cycles para cada operação
+    fazer diagrama temporal
+explicar com exemplos pq os ticks têm de começar com step 0
+    senao fica o frame mais para o outro lado e existe na mesma a distorção
+    alem disso é só 1 coluna de pontos no meio de 1800*100
+maquina de estados vai logo para o trigger antes de esperar pelo 1º dt_tick
+*/
 
 /*
 integer f0, f1, f2, f3, f4;
@@ -108,12 +121,13 @@ end
 
 laserSynchronizer #(
     .SYSCLOCK_P(SYSCLOCK_P),
-    .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
-    .LINES_PER_FRAME_P(LINES_PER_FRAME_P),
-    .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P),
+    .THETAMAX_P(THETAMAX_P),
+    .FRAME_COLUMNS_P(FRAME_COLUMNS_P),
+    .FRAME_LINES_P(FRAME_LINES_P),
+    .FRAME_NUMBER_P(FRAME_NUMBER_P),
     .MEM_CYCLES_P(MEM_CYCLES_P),
     .PULSE_LENGTH_P(PULSE_LENGTH_P),
-    .THETAMAX_P(THETAMAX_P)
+    .LINE_POINTS_P(LINE_POINTS_P)
 ) LS_uut
 (
     .clk_i(clk_r),

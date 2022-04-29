@@ -18,4 +18,7 @@ nas extremidades do FOV não era preciso ser tao intercalado pq o feixe tem temp
     para menor complexidade referencia sera o meio
     medir exatamente o tempo entre disparos na versao sequencial
 numero de pontos por linha tem de estar em concordancia com o numero de colunas (20, 360; 19, 361)
+    nao pode dar numero frac
+
+relembrar que o numero de pontos por linha tem de ser bem escolhido
 

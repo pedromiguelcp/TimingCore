@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
 			addr_aux = 0;
 
 			//for(int i = 0; i < NUMBER_OF_FRAMES; i++){
-			for(int i = 0; i < 1; i++){
+			for(int i = 1; i < 2; i++){
 				addr = 0;
 				myaddr=0;
 				iterator = 0;

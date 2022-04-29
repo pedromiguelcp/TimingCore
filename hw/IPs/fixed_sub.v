@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 04/20/2022 11:27:20 PM
+// Create Date: 04/20/2022 11:26:20 PM
 // Design Name: 
-// Module Name: fixed_add
+// Module Name: fixed_sub
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -19,9 +19,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
-module fixed_add #(
-    parameter Q = 15,
+module fixed_sub #(
+    parameter Q = 16,
     parameter N = 32
 )(
     input           clk_i,
@@ -38,7 +37,8 @@ reg [N-1:0] result_r;
 reg         ready_r;
 
 assign ready_o  = ready_r;
-assign result_o = result_r;
+//results is not in 2's complement
+assign result_o = result_r[N-1]?{1'b1,~result_r[N-2:0]}:result_r;
 
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
@@ -47,9 +47,10 @@ always @(posedge clk_i or negedge nrst_i) begin
     end
     else begin
         if(valid_i)begin
-            result_r[N-2:0] <= opA_i[N-2:0] + opB_i[N-2:0];
-            result_r[N-1]   <= opA_i[N-1];
-            ready_r         <= 1'b1;
+            //result_r[N-2:0] <= opA_i[N-2:0] - opB_i[N-2:0];
+            //result_r[N-1]   <= opA_i[N-1];
+            result_r    <= opA_i - opB_i;
+            ready_r     <= 1'b1;
         end
         else begin
             ready_r         <= 1'b0;
