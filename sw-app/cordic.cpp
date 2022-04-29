@@ -200,18 +200,18 @@ int main(int argc, char *argv[]) {
 						myaddr = (k*NUMBER_OF_PASSAGES) + myiterator;
 						if(myaddr==0 && j==0){//just the first passage
 							mydt_ticks = temp[i][myaddr];
-							my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << myaddr << "]" << std::endl;
+							//my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << myaddr << "]" << std::endl;
 						}
 						else
 						{
 							if(k == 0){
 								//mydt_ticks = temp[i][FRAME_COLUMNS-1] - temp[i][myprev_addr] + temp[i][myaddr];
 								mydt_ticks = temp[i][myaddr] - temp[i][myprev_addr] + temp[i][FRAME_COLUMNS-1];
-								my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << FRAME_COLUMNS-1 << "] - temp["  << i << "][" << myprev_addr << "] + temp["  << i << "][" << myaddr << "]" << std::endl;
+								//my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << FRAME_COLUMNS-1 << "] - temp["  << i << "][" << myprev_addr << "] + temp["  << i << "][" << myaddr << "]" << std::endl;
 							}
 							else{
 								mydt_ticks = temp[i][myaddr] - temp[i][myprev_addr];
-								my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << myaddr << "] - temp["  << i << "][" << myprev_addr << "]" << std::endl;
+								//my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << myaddr << "] - temp["  << i << "][" << myprev_addr << "]" << std::endl;
 							}
 						}
 						
