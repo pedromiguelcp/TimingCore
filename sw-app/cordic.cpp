@@ -96,14 +96,14 @@ int main(int argc, char *argv[]) {
 			wn = (2*M_PI*freq);
 			dt = 0;
 			theta = thetaM;
-			nextTheta = 0;
+			nextTheta = theta;
 			dt_ticks = 0;
             last_dt_ticks = 0;
 			t_next = 0;
 
 			for (i=0; i<TOTALPOINTS; i++)	{
-				nextTheta = theta - step;
 				t_next = acos(std::complex <double> (nextTheta/thetaM)) / wn;
+				nextTheta = theta - step;
 				dt = t_next.real();
 
 				theta = nextTheta;
@@ -119,7 +119,7 @@ int main(int argc, char *argv[]) {
                     last_dt_ticks = dt_ticks;
                 }*/
 
-                if(counter_frames == 0){
+                if(counter_frames == 3){
                     dt_ticks_file << dt_ticks << std::endl;
                     trigger_ticks_file << (dt_ticks - last_dt_ticks) << std::endl;
                     last_dt_ticks = dt_ticks;
@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
 			addr_aux = 0;
 
 			//for(int i = 0; i < NUMBER_OF_FRAMES; i++){
-			for(int i = 1; i < 2; i++){
+			for(int i = 4; i < 5; i++){
 				addr = 0;
 				myaddr=0;
 				iterator = 0;

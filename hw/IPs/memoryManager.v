@@ -208,16 +208,19 @@ assign active_pixel_o = (mem_grp_r == 3'b000)   ?   active_pixel_w[0]  :
                         (mem_grp_r == 3'b011)   ?   active_pixel_w[3]  :
                         (mem_grp_r == 3'b100)   ?   active_pixel_w[4]  :    active_pixel_w[0];
 
-integer f0, f1, f2, f3, f4;
+/*integer f0, f1, f2, f3, f4;
+integer aux_cnt;
 initial begin
   f0 = $fopen("dt_Ticks_Frame0.txt","w");
   f1 = $fopen("dt_Ticks_Frame1.txt","w");
   f2 = $fopen("dt_Ticks_Frame2.txt","w");
   f3 = $fopen("dt_Ticks_Frame3.txt","w");
   f4 = $fopen("dt_Ticks_Frame4.txt","w");
+  aux_cnt=0;
 end
 always @(posedge clk_i) begin
     if(wen_i) begin
+        aux_cnt=aux_cnt+1;
         if(memory_selector_i == 3'b000) begin
             $fwrite(f0,"%d\n",wdata_i[15:0]);
         end
@@ -234,13 +237,13 @@ always @(posedge clk_i) begin
             $fwrite(f4,"%d\n",wdata_i[15:0]);
         end
     end
-    if (waddr_i >= 11'd360) begin
+    if (aux_cnt > 1799) begin
         $fclose(f0);
         $fclose(f1);
         $fclose(f2);
         $fclose(f3);
         $fclose(f4);
     end
-end
+end*/
 
 endmodule

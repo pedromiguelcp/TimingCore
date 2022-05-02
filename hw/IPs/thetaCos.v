@@ -22,9 +22,9 @@
 
 module thetaCos #(
     parameter   THETAMAX_P          = 9,
-    parameter   POINTS_PER_LINE_P   = 360,
-    parameter   NUMBER_OF_FRAMES_P  = 5,
-    localparam  TOTAL_POINTS_P      = POINTS_PER_LINE_P*NUMBER_OF_FRAMES_P
+    parameter   FRAME_COLUMNS_P   = 360,
+    parameter   FRAME_NUMBER_P  = 5,
+    localparam  TOTAL_POINTS_P      = FRAME_COLUMNS_P*FRAME_NUMBER_P
 )(
     input           clk_i,
     input           nrst_i,

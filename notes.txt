@@ -22,3 +22,10 @@ numero de pontos por linha tem de estar em concordancia com o numero de colunas 
 
 relembrar que o numero de pontos por linha tem de ser bem escolhido
 
+poderá haver um erro crescente visto que o espelho faz mais periodos horizontais
+    sincronizar levaria ao dobro do tempo
+        disparos só no movimento numa direção
+
+calcular só metade e preencher posiçoes da memoria diferentes
+
+last edge tick with big difference 

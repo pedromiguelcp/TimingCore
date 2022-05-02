@@ -21,9 +21,9 @@
 
 
 module cordicManager #(
-  parameter   POINTS_PER_LINE_P   = 360,
-  parameter   NUMBER_OF_FRAMES_P  = 5,
-  parameter   THETAMAX_P          = 9
+  parameter   FRAME_COLUMNS_P = 360,
+  parameter   FRAME_NUMBER_P  = 5,
+  parameter   THETAMAX_P      = 9
 )(
   input           clk_i,
   input           nrst_i,
@@ -145,8 +145,8 @@ arcTan arcTan_uut(
 //output thetaCos based on the mirror iteration step
 thetaCos  #(
   .THETAMAX_P(THETAMAX_P),
-  .POINTS_PER_LINE_P(POINTS_PER_LINE_P),
-  .NUMBER_OF_FRAMES_P(NUMBER_OF_FRAMES_P)
+  .FRAME_COLUMNS_P(FRAME_COLUMNS_P),
+  .FRAME_NUMBER_P(FRAME_NUMBER_P)
 ) thetaCos_uut(
   .clk_i(clk_i),
   .nrst_i(nrst_i),

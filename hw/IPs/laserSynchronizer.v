@@ -62,26 +62,27 @@ assign waddr_dtTicks_o = waddr_r;
 wire [2:0]  nxt_state_w;
 reg  [2:0]  cur_state_r;
 reg  [1:0]  mem_switch_r;
-reg  [18:0] last_ticks_r [0:FRAME_NUMBER_P-1];
 wire [18:0] dt_Ticks_w;
-reg  [18:0] last_dt_Ticks;
+reg  [18:0] last_dt_Ticks_r;
 reg         ticks_update_r;
 reg         mem_update_over_r;
 reg         edge_ticks_saved_r;
 reg         active_pixel_r;
-reg         en_cordic_r;
 wire        dt_Ticks_valid_w;
 wire        next_dt_Ticks_w;
 integer     i, aux;
 
-/****************************/
+
 reg [18:0]  edge_ticks_r [0:FRAME_NUMBER_P-1];
 reg [2:0]   edgeTick_select_r;
 reg         edge_theta_valid_r;
 reg [11:0]  edge_theta_it_r;
 reg         theta_iteration_valid_r;
 reg [11:0]  theta_iteration_r;
-/******************************/
+
+reg [2:0]  frame_number_cnt_r;
+reg [11:0] passages_cnt_r;
+reg [11:0] line_points_cnt_r;
 
 //STATE MACHINE
 assign nxt_state_w  =   (cur_state_r == `IDLE & ~ticks_update_r)            ?   `IDLE       :
@@ -110,20 +111,19 @@ always @(posedge clk_i or negedge nrst_i) begin
         edge_ticks_saved_r  <= 1'b0;
     end
     else begin
-        if((waddr_r >= FRAME_COLUMNS_P) & (cur_state_r == `MEM_UPDATE)) begin
-            mem_update_over_r <= 1'b1;
-        end
-        else begin
-            mem_update_over_r <= 1'b0;
-        end
-
-        if((edgeTick_select_r >= FRAME_NUMBER_P-1) & dt_Ticks_valid_w & (cur_state_r == `EDGE_TICKS)) begin
+        if((edgeTick_select_r > FRAME_NUMBER_P-1) & next_dt_Ticks_w & (cur_state_r == `EDGE_TICKS)) begin
             edge_ticks_saved_r <= 1'b1;
         end
         else begin
             edge_ticks_saved_r <= 1'b0;
         end
         
+        if((frame_number_cnt_r >= FRAME_NUMBER_P-1) & (waddr_r >= FRAME_COLUMNS_P-1) & dt_Ticks_valid_w & (cur_state_r == `MEM_UPDATE)) begin
+            mem_update_over_r <= 1'b1;
+        end
+        else begin
+            mem_update_over_r <= 1'b0;
+        end
     end
 end
 
@@ -138,48 +138,6 @@ always @(posedge clk_i or negedge nrst_i) begin
         ticks_update_r  <= ((mem_switch_r[0] & ~mem_switch_r[1]) | (~mem_switch_r[0] & mem_switch_r[1]));
     end
 end
-
-//Memory update
-/*always @(posedge clk_i or negedge nrst_i) begin
-    if(~nrst_i) begin
-        waddr_r         <= 11'd0;
-        wdata_r         <= 17'd0;
-        we_r            <= 1'b0;
-        active_pixel_r  <= 1'b1; //allways on for now
-        
-        for (i = 0; i < FRAME_NUMBER_P; i = i + 1) begin
-            last_ticks_r[i] <= 19'd0;
-        end
-    end
-    else begin
-        if(cur_state_r == `MEM_UPDATE) begin
-            if(dt_Ticks_valid_w) begin
-                we_r            <= 1'b1;
-                wdata_r[16]     <= active_pixel_r;
-                wdata_r[15:0]   <= dt_Ticks_w - last_ticks_r[mem_select_r];
-                last_ticks_r[mem_select_r]  <= dt_Ticks_w;
-
-            end
-            else if(next_dt_Ticks_w) begin
-                if(mem_select_r >= (FRAME_NUMBER_P - 1)) begin
-                    waddr_r <= waddr_r + 1'b1;
-                end
-
-            end
-            else begin
-                we_r    <= 1'b0;//prevents continuous mem write enable
-            end
-        end
-        else begin
-            waddr_r     <= 11'd0;
-            wdata_r     <= 17'd0;
-            we_r        <= 1'b0;
-            for (i = 0; i < FRAME_NUMBER_P; i = i + 1) begin
-                last_ticks_r[i] <= 19'd0;
-            end
-        end
-    end
-end*/
 
 //Enable/Disable mem switch
 always @(posedge clk_i or negedge nrst_i) begin
@@ -196,34 +154,6 @@ always @(posedge clk_i or negedge nrst_i) begin
     end
 end
 
-/*******************************************************/
-//Mem selector
-/*always @(posedge clk_i or negedge nrst_i) begin
-    if(~nrst_i) begin
-        mem_select_r    <= 3'b000;
-        en_cordic_r     <= 1'b0;
-    end
-    else begin 
-        if((cur_state_r == `MEM_UPDATE) & next_dt_Ticks_w) begin
-            if(mem_select_r < (FRAME_NUMBER_P - 1)) begin
-                mem_select_r <= mem_select_r + 1'b1;
-            end
-            else begin
-                mem_select_r <= 3'b000;
-            end
-        end
-        else begin
-            mem_select_r   <= 3'b000;
-        end
-
-        if((cur_state_r == `MEM_UPDATE) | (cur_state_r == `EDGE_TICKS)) begin
-            en_cordic_r <= 1'b1;
-        end
-        else begin
-            en_cordic_r <= 1'b0;
-        end
-    end
-end*/
 
 //Get frame edge ticks
 always @(posedge clk_i or negedge nrst_i) begin
@@ -236,31 +166,35 @@ always @(posedge clk_i or negedge nrst_i) begin
         end
     end
     else begin 
-        if(cur_state_r == `EDGE_TICKS) begin
-            if (dt_Ticks_valid_w & (edgeTick_select_r < FRAME_NUMBER_P)) begin
-                edge_ticks_r[edgeTick_select_r] <= dt_Ticks_w;
-                edgeTick_select_r <= edgeTick_select_r + 1'b1;   
-                edge_theta_it_r <= edge_theta_it_r + 1'b1; 
+        if ((cur_state_r == `IDLE) & ticks_update_r) begin//trigger edge ticks computation next state
+            edge_theta_valid_r <= 1'b1;
+        end
+        else if (cur_state_r == `EDGE_TICKS) begin
+            if (dt_Ticks_valid_w) begin
                 edge_theta_valid_r <= 1'b0;
             end
-        end
-
-        if(cur_state_r == `EDGE_TICKS) begin
-            if(next_dt_Ticks_w | ((edgeTick_select_r <= 3'b000) & ~dt_Ticks_valid_w)) begin
+            else if(next_dt_Ticks_w & (edgeTick_select_r < FRAME_NUMBER_P)) begin
                 edge_theta_valid_r <= 1'b1;
             end
         end
         else begin
-            edgeTick_select_r <= 3'b000;
             edge_theta_valid_r <= 1'b0;
+        end
+
+        if(cur_state_r == `EDGE_TICKS) begin
+            if (dt_Ticks_valid_w) begin
+                edge_theta_it_r <= edge_theta_it_r + 1'b1; 
+                edgeTick_select_r <= edgeTick_select_r + 1'b1;   
+                edge_ticks_r[edgeTick_select_r] <= dt_Ticks_w;
+            end
+        end
+        else begin
+            edgeTick_select_r <= 3'b000;
             edge_theta_it_r <= TOTAL_POINTS_P[11:0] - FRAME_NUMBER_P[11:0];
         end
+
     end
 end
-
-reg [2:0]  frame_number_cnt_r;
-reg [11:0] passages_cnt_r;
-reg [11:0] line_points_cnt_r;
 
 //non-seq iterations
 always @(posedge clk_i or negedge nrst_i) begin
@@ -272,27 +206,23 @@ always @(posedge clk_i or negedge nrst_i) begin
     else begin 
         if(cur_state_r == `MEM_UPDATE) begin
             if(dt_Ticks_valid_w) begin
-                if(frame_number_cnt_r < FRAME_NUMBER_P-1) begin//5
-                    if (passages_cnt_r < PASSAGES_P-1) begin//18
-                        if (line_points_cnt_r < LINE_POINTS_P-1) begin//20
-                            line_points_cnt_r <= line_points_cnt_r + 1'b1;
-
-                        end
-                        else begin
-                            line_points_cnt_r <= 12'd0;
-                            passages_cnt_r <= passages_cnt_r + 1'b1;
-                        end
-                    end
-                    else begin
-                        line_points_cnt_r <= 12'd0;
-                        passages_cnt_r <= 12'd0;
-                        frame_number_cnt_r <= frame_number_cnt_r + 1'b1;
-                    end
+                if (line_points_cnt_r < LINE_POINTS_P-1) begin//20
+                    line_points_cnt_r <= line_points_cnt_r + 1'b1;
                 end
                 else begin
                     line_points_cnt_r <= 12'd0;
-                    passages_cnt_r <= 12'd0;
-                    frame_number_cnt_r <= 3'b000;
+                    if(passages_cnt_r < PASSAGES_P-1) begin
+                        passages_cnt_r <= passages_cnt_r + 1'b1;
+                    end
+                    else begin
+                        passages_cnt_r <= 12'd0;
+                        if (frame_number_cnt_r < FRAME_NUMBER_P-1) begin
+                            frame_number_cnt_r <= frame_number_cnt_r + 1'b1;
+                        end
+                        else begin
+                            frame_number_cnt_r <= 3'b000;
+                        end
+                    end
                 end
             end
         end
@@ -309,49 +239,95 @@ always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         waddr_r         <= 11'd0;
         wdata_r         <= 17'd0;
+        last_dt_Ticks_r <= 19'd0;
         we_r            <= 1'b0;
+        mem_select_r    <= 3'b000;
         active_pixel_r  <= 1'b1; //allways on for now
     end
     else begin 
-        //write data ticks
-        if((cur_state_r == `MEM_UPDATE) & dt_Ticks_valid_w) begin
-            wdata_r[16]     <= active_pixel_r;
-            wdata_r[15:0]   <= dt_Ticks_w - last_dt_Ticks + (line_points_cnt_r <= 0 ? edge_ticks_r[frame_number_cnt_r] : 1'b0);
-            last_dt_Ticks   <= dt_Ticks_w;
-            we_r            <= 1'b1;
+        //data ticks
+        if(cur_state_r == `MEM_UPDATE) begin
+            if(dt_Ticks_valid_w) begin
+                if((passages_cnt_r <= 12'd0) & (line_points_cnt_r <= 12'd0)) begin//1st iteration
+                    wdata_r[15:0]   <= dt_Ticks_w;
+                end
+                else if(line_points_cnt_r <= 12'd0) begin//when mirror is on the edges
+                    wdata_r[15:0]   <= dt_Ticks_w - last_dt_Ticks_r + edge_ticks_r[frame_number_cnt_r];
+                end
+                else begin//elsewhere
+                    wdata_r[15:0]   <= dt_Ticks_w - last_dt_Ticks_r;
+                end
+                wdata_r[16]     <= active_pixel_r;
+                last_dt_Ticks_r <= dt_Ticks_w;
+            end
         end
         else begin
-            we_r    <= 1'b0;
+            wdata_r         <= 17'd0;
+            last_dt_Ticks_r <= 19'd0;
         end
 
-        //next write addr
+        //addr ticks
         if(cur_state_r == `MEM_UPDATE) begin
             if(next_dt_Ticks_w) begin
-                waddr_r <= (passages_cnt_r * LINE_POINTS_P) + line_points_cnt_r;
-                mem_select_r <= frame_number_cnt_r;
+                if (waddr_r < FRAME_COLUMNS_P-1) begin
+                    waddr_r <= waddr_r + 1'b1;
+                end
+                else begin
+                    waddr_r <= 11'd0;
+                end
             end
         end
         else begin
             waddr_r <= 11'd0;
         end
 
-        //compute non-Seq theta iteration
+        //ticks enable
+        if((cur_state_r == `MEM_UPDATE) & dt_Ticks_valid_w) begin
+            we_r            <= 1'b1;
+        end
+        else begin
+            we_r            <= 1'b0;
+        end
+
+        if(cur_state_r == `MEM_UPDATE) begin
+            mem_select_r    <= frame_number_cnt_r; //delay needed when switching between frame mems
+        end
+        else begin
+            mem_select_r    <= 3'b000;
+        end
+
+    end
+end
+
+//compute non-Seq theta iteration
+always @(posedge clk_i or negedge nrst_i) begin
+    if(~nrst_i) begin
+        theta_iteration_valid_r <= 1'b0;
+        theta_iteration_r       <= 12'd0;
+    end
+    else begin 
         if(cur_state_r == `MEM_UPDATE) begin
             if(dt_Ticks_valid_w) begin
                 theta_iteration_valid_r <= 1'b0;
             end
             else if(next_dt_Ticks_w) begin
                 theta_iteration_valid_r <= 1'b1;
-                theta_iteration_r <= (line_points_cnt_r * PASSAGES_P) + frame_number_cnt_r;
+                theta_iteration_r <=    (line_points_cnt_r  * PASSAGES_P * FRAME_NUMBER_P) + 
+                                        ((passages_cnt_r >> 1) * FRAME_NUMBER_P) +
+                                        frame_number_cnt_r;
             end
         end
-        else begin
+        else if(edge_ticks_saved_r) begin // last state done (edge ticks computation)
+            theta_iteration_valid_r <= 1'b1;
             theta_iteration_r <= 12'd0;
+        end
+        else begin
             theta_iteration_valid_r <= 1'b0;
+            theta_iteration_r <= 12'd0;
         end
     end
 end
-/****************************************************/
+
 
 
 cordicManager #(
@@ -381,7 +357,7 @@ timingCore TC_uut(
     .waddr_i(waddr_r), // address to write ticks in memory
     .wdata_i(wdata_r), // {dt_ticks [15:0], active_pixel [16:16]} 
     .we_i(we_r), // enable memory write (just send a singal?)
-    .memory_selector_i(frame_number_cnt_r), // select frame mem
+    .memory_selector_i(mem_select_r), // select frame mem
     .mem_updated_i(mem_updated_r), // memory enable (enable switch between mems)
     .points_per_line_i(FRAME_COLUMNS_P[9:0]-1'b1), // 360
     .lines_per_frame_i(FRAME_LINES_P[7:0]-1'b1), // 100
