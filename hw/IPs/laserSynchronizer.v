@@ -30,7 +30,7 @@ module laserSynchronizer #(
     parameter   FRAME_COLUMNS_P = 360,
     parameter   FRAME_LINES_P   = 100,
     parameter   FRAME_NUMBER_P  = 5,
-    parameter   MEM_CYCLES_P    = 100,
+    parameter   MEM_CYCLES_P    = 13,
     parameter   PULSE_LENGTH_P  = 5,
     parameter   LINE_POINTS_P   = 20,
     localparam  PASSAGES_P      = (FRAME_COLUMNS_P/LINE_POINTS_P),
@@ -42,6 +42,8 @@ module laserSynchronizer #(
     input   [23:0]  freq_i,
 
     output          laser_trigger_o,
+
+    output [2:0]    mem_select_o, //remove
     output          wedata_dtTicks_o, //remove
     output [15:0]   wdata_dtTicks_o,//remove
     output [10:0]   waddr_dtTicks_o//remove
@@ -55,15 +57,16 @@ reg         we_r;
 reg         mem_updated_r;
 wire        update_mem_w, line_completed_w;
 
-assign wedata_dtTicks_o = we_r;
-assign wdata_dtTicks_o = wdata_r[15:0];
-assign waddr_dtTicks_o = waddr_r;
+assign mem_select_o = mem_select_r; //remove
+assign wedata_dtTicks_o = we_r; //remove
+assign wdata_dtTicks_o = wdata_r[15:0]; //remove
+assign waddr_dtTicks_o = waddr_r; //remove
 
 wire [2:0]  nxt_state_w;
 reg  [2:0]  cur_state_r;
 reg  [1:0]  mem_switch_r;
-wire [18:0] dt_Ticks_w;
-reg  [18:0] last_dt_Ticks_r;
+wire [15:0] dt_Ticks_w;
+reg  [15:0] last_dt_Ticks_r;
 reg         ticks_update_r;
 reg         mem_update_over_r;
 reg         edge_ticks_saved_r;
@@ -73,16 +76,14 @@ wire        next_dt_Ticks_w;
 integer     i, aux;
 
 
-reg [18:0]  edge_ticks_r [0:FRAME_NUMBER_P-1];
+reg [15:0]  edge_ticks_r [0:FRAME_NUMBER_P-1];
 reg [2:0]   edgeTick_select_r;
-reg         edge_theta_valid_r;
-reg [11:0]  edge_theta_it_r;
-reg         theta_iteration_valid_r;
-reg [11:0]  theta_iteration_r;
+reg         theta_valid_r;
+reg [11:0]  theta_data_r;
 
-reg [2:0]  frame_number_cnt_r;
-reg [11:0] passages_cnt_r;
-reg [11:0] line_points_cnt_r;
+reg [2:0]   frame_number_cnt_r;
+reg [9:0]   passages_cnt_r;
+reg [9:0]   line_points_cnt_r;
 
 //STATE MACHINE
 assign nxt_state_w  =   (cur_state_r == `IDLE & ~ticks_update_r)            ?   `IDLE       :
@@ -94,7 +95,7 @@ assign nxt_state_w  =   (cur_state_r == `IDLE & ~ticks_update_r)            ?   
 
 assign quarter_mirror_cycle_delay_w = freq_i >> 2; // (freq/4)
 
-
+//state machine engine
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         cur_state_r <= `IDLE;
@@ -104,21 +105,21 @@ always @(posedge clk_i or negedge nrst_i) begin
     end
 end
 
-//SIGNALS LOGIC
+//trigger state machine change
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         mem_update_over_r   <= 1'b0;
         edge_ticks_saved_r  <= 1'b0;
     end
     else begin
-        if((edgeTick_select_r > FRAME_NUMBER_P-1) & next_dt_Ticks_w & (cur_state_r == `EDGE_TICKS)) begin
+        if((cur_state_r == `EDGE_TICKS) & (edgeTick_select_r > FRAME_NUMBER_P-1)) begin
             edge_ticks_saved_r <= 1'b1;
         end
         else begin
             edge_ticks_saved_r <= 1'b0;
         end
         
-        if((frame_number_cnt_r >= FRAME_NUMBER_P-1) & (waddr_r >= FRAME_COLUMNS_P-1) & dt_Ticks_valid_w & (cur_state_r == `MEM_UPDATE)) begin
+        if((cur_state_r == `MEM_UPDATE) & (frame_number_cnt_r >= FRAME_NUMBER_P-1) & (waddr_r >= FRAME_COLUMNS_P-1) & dt_Ticks_valid_w) begin
             mem_update_over_r <= 1'b1;
         end
         else begin
@@ -127,25 +128,18 @@ always @(posedge clk_i or negedge nrst_i) begin
     end
 end
 
-//Check for memory switch
+//memory switch management
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         mem_switch_r    <= 2'b11;
         ticks_update_r  <= 1'b0;
+        mem_updated_r   <= 1'b1; // enable mem switch to receive singal when MEM0 is consumed
     end
     else begin 
         mem_switch_r    <= {mem_switch_r[0], update_mem_w};
         ticks_update_r  <= ((mem_switch_r[0] & ~mem_switch_r[1]) | (~mem_switch_r[0] & mem_switch_r[1]));
-    end
-end
 
-//Enable/Disable mem switch
-always @(posedge clk_i or negedge nrst_i) begin
-    if(~nrst_i) begin
-        mem_updated_r   <= 1'b1; // enable mem switch to receive singal when MEM0 is consumed
-    end
-    else begin
-        if((cur_state_r == `MEM_UPDATE) | (cur_state_r == `EDGE_TICKS)) begin
+        if((cur_state_r == `MEM_UPDATE) | (cur_state_r == `EDGE_TICKS)) begin //Enable/Disable mem switch
             mem_updated_r   <= 1'b0;
         end
         else begin
@@ -154,54 +148,35 @@ always @(posedge clk_i or negedge nrst_i) begin
     end
 end
 
-
-//Get frame edge ticks
+//edge ticks
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
-        edgeTick_select_r <= 3'b000;
-        edge_theta_valid_r <= 1'b0;
-        edge_theta_it_r <= TOTAL_POINTS_P[11:0] - FRAME_NUMBER_P[11:0];//last tick for 1st frame    
+        edgeTick_select_r <= 3'b000;   
         for (aux = 0; aux < FRAME_NUMBER_P; aux = aux + 1) begin
             edge_ticks_r[aux] <= 19'd0;
         end
     end
     else begin 
-        if ((cur_state_r == `IDLE) & ticks_update_r) begin//trigger edge ticks computation next state
-            edge_theta_valid_r <= 1'b1;
-        end
-        else if (cur_state_r == `EDGE_TICKS) begin
-            if (dt_Ticks_valid_w) begin
-                edge_theta_valid_r <= 1'b0;
-            end
-            else if(next_dt_Ticks_w & (edgeTick_select_r < FRAME_NUMBER_P)) begin
-                edge_theta_valid_r <= 1'b1;
-            end
-        end
-        else begin
-            edge_theta_valid_r <= 1'b0;
-        end
-
         if(cur_state_r == `EDGE_TICKS) begin
             if (dt_Ticks_valid_w) begin
-                edge_theta_it_r <= edge_theta_it_r + 1'b1; 
-                edgeTick_select_r <= edgeTick_select_r + 1'b1;   
                 edge_ticks_r[edgeTick_select_r] <= dt_Ticks_w;
+            end
+            else if (next_dt_Ticks_w) begin
+                edgeTick_select_r <= edgeTick_select_r + 1'b1;   
             end
         end
         else begin
             edgeTick_select_r <= 3'b000;
-            edge_theta_it_r <= TOTAL_POINTS_P[11:0] - FRAME_NUMBER_P[11:0];
         end
-
     end
 end
 
-//non-seq iterations
+//point iterations
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         frame_number_cnt_r <= 3'b000;
-        passages_cnt_r  <= 12'd0;
-        line_points_cnt_r <= 12'd0;
+        passages_cnt_r  <= 10'd0;
+        line_points_cnt_r <= 10'd0;
     end
     else begin 
         if(cur_state_r == `MEM_UPDATE) begin
@@ -210,13 +185,13 @@ always @(posedge clk_i or negedge nrst_i) begin
                     line_points_cnt_r <= line_points_cnt_r + 1'b1;
                 end
                 else begin
-                    line_points_cnt_r <= 12'd0;
-                    if(passages_cnt_r < PASSAGES_P-1) begin
+                    line_points_cnt_r <= 10'd0;
+                    if(passages_cnt_r < PASSAGES_P-1) begin//18
                         passages_cnt_r <= passages_cnt_r + 1'b1;
                     end
                     else begin
-                        passages_cnt_r <= 12'd0;
-                        if (frame_number_cnt_r < FRAME_NUMBER_P-1) begin
+                        passages_cnt_r <= 10'd0;
+                        if (frame_number_cnt_r < FRAME_NUMBER_P-1) begin//5
                             frame_number_cnt_r <= frame_number_cnt_r + 1'b1;
                         end
                         else begin
@@ -227,19 +202,68 @@ always @(posedge clk_i or negedge nrst_i) begin
             end
         end
         else begin
-            line_points_cnt_r <= 12'd0;
-            passages_cnt_r <= 12'd0;
+            line_points_cnt_r <= 10'd0;
+            passages_cnt_r <= 10'd0;
             frame_number_cnt_r <= 3'b000;
         end
     end
 end
 
-//non-seq mem update
+//theta iterations
+always @(posedge clk_i or negedge nrst_i) begin
+    if(~nrst_i) begin
+        theta_valid_r <= 1'b0;
+        theta_data_r       <= 12'd0;
+        theta_data_r       <= TOTAL_POINTS_P[11:0] - FRAME_NUMBER_P[11:0];
+    end
+    else begin 
+        //theta valid
+        if((cur_state_r == `IDLE) & ticks_update_r) begin // trigger computation when previous state done
+            theta_valid_r <= 1'b1;
+        end
+        else if(cur_state_r == `EDGE_TICKS) begin
+            if(dt_Ticks_valid_w) begin
+                theta_valid_r <= 1'b0;
+            end
+            else if (edge_ticks_saved_r | (next_dt_Ticks_w & (edgeTick_select_r < FRAME_NUMBER_P-1))) begin
+                theta_valid_r <= 1'b1;
+            end
+        end
+        else if(cur_state_r == `MEM_UPDATE) begin
+            theta_valid_r <= dt_Ticks_valid_w ? 1'b0 : (next_dt_Ticks_w ? 1'b1 : theta_valid_r);
+        end
+        else  begin
+            theta_valid_r <= 1'b0;
+        end
+
+        //theta iteration
+        if(cur_state_r == `EDGE_TICKS) begin
+            if (dt_Ticks_valid_w) begin
+                theta_data_r <= theta_data_r + 1'b1; 
+            end
+            else if(edge_ticks_saved_r) begin
+                theta_data_r <= 12'd0;
+            end
+        end
+        else if(cur_state_r == `MEM_UPDATE) begin
+            if(next_dt_Ticks_w) begin
+                theta_data_r <= (line_points_cnt_r * PASSAGES_P * FRAME_NUMBER_P) + 
+                                ((passages_cnt_r >> 1) * FRAME_NUMBER_P) +
+                                frame_number_cnt_r;
+            end
+        end
+        else begin
+            theta_data_r <= TOTAL_POINTS_P[11:0] - FRAME_NUMBER_P[11:0];
+        end
+    end
+end
+
+//data ticks
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         waddr_r         <= 11'd0;
         wdata_r         <= 17'd0;
-        last_dt_Ticks_r <= 19'd0;
+        last_dt_Ticks_r <= 16'd0;
         we_r            <= 1'b0;
         mem_select_r    <= 3'b000;
         active_pixel_r  <= 1'b1; //allways on for now
@@ -248,10 +272,10 @@ always @(posedge clk_i or negedge nrst_i) begin
         //data ticks
         if(cur_state_r == `MEM_UPDATE) begin
             if(dt_Ticks_valid_w) begin
-                if((passages_cnt_r <= 12'd0) & (line_points_cnt_r <= 12'd0)) begin//1st iteration
+                if((passages_cnt_r == 10'd0) & (line_points_cnt_r == 10'd0)) begin//1st iteration
                     wdata_r[15:0]   <= dt_Ticks_w;
                 end
-                else if(line_points_cnt_r <= 12'd0) begin//when mirror is on the edges
+                else if(line_points_cnt_r == 10'd0) begin//when mirror is on the edges
                     wdata_r[15:0]   <= dt_Ticks_w - last_dt_Ticks_r + edge_ticks_r[frame_number_cnt_r];
                 end
                 else begin//elsewhere
@@ -263,7 +287,7 @@ always @(posedge clk_i or negedge nrst_i) begin
         end
         else begin
             wdata_r         <= 17'd0;
-            last_dt_Ticks_r <= 19'd0;
+            last_dt_Ticks_r <= 16'd0;
         end
 
         //addr ticks
@@ -281,7 +305,7 @@ always @(posedge clk_i or negedge nrst_i) begin
             waddr_r <= 11'd0;
         end
 
-        //ticks enable
+        //store ticks
         if((cur_state_r == `MEM_UPDATE) & dt_Ticks_valid_w) begin
             we_r            <= 1'b1;
         end
@@ -289,45 +313,9 @@ always @(posedge clk_i or negedge nrst_i) begin
             we_r            <= 1'b0;
         end
 
-        if(cur_state_r == `MEM_UPDATE) begin
-            mem_select_r    <= frame_number_cnt_r; //delay needed when switching between frame mems
-        end
-        else begin
-            mem_select_r    <= 3'b000;
-        end
-
+        mem_select_r    <= frame_number_cnt_r; //delay needed when switching between frame mems
     end
 end
-
-//compute non-Seq theta iteration
-always @(posedge clk_i or negedge nrst_i) begin
-    if(~nrst_i) begin
-        theta_iteration_valid_r <= 1'b0;
-        theta_iteration_r       <= 12'd0;
-    end
-    else begin 
-        if(cur_state_r == `MEM_UPDATE) begin
-            if(dt_Ticks_valid_w) begin
-                theta_iteration_valid_r <= 1'b0;
-            end
-            else if(next_dt_Ticks_w) begin
-                theta_iteration_valid_r <= 1'b1;
-                theta_iteration_r <=    (line_points_cnt_r  * PASSAGES_P * FRAME_NUMBER_P) + 
-                                        ((passages_cnt_r >> 1) * FRAME_NUMBER_P) +
-                                        frame_number_cnt_r;
-            end
-        end
-        else if(edge_ticks_saved_r) begin // last state done (edge ticks computation)
-            theta_iteration_valid_r <= 1'b1;
-            theta_iteration_r <= 12'd0;
-        end
-        else begin
-            theta_iteration_valid_r <= 1'b0;
-            theta_iteration_r <= 12'd0;
-        end
-    end
-end
-
 
 
 cordicManager #(
@@ -339,10 +327,8 @@ cordicManager #(
     .clk_i(clk_i),
     .nrst_i(nrst_i),
     .freq_i(freq_i),
-    .edge_theta_valid_i(edge_theta_valid_r),
-    .edge_theta_i(edge_theta_it_r),
-    .theta_iteration_valid_i(theta_iteration_valid_r),
-    .theta_iteration_i(theta_iteration_r),
+    .theta_iteration_valid_i(theta_valid_r),
+    .theta_iteration_i(theta_data_r),
 
     .dt_Ticks_valid_o(dt_Ticks_valid_w),
     .next_dt_Ticks_o(next_dt_Ticks_w),

@@ -71,7 +71,7 @@ fixed_mul #(32,48) mul_uut (//thetaM (thetaMAX*pi/180)
     .nrst_i(nrst_i),
     .valid_i(thetaM_valid_r),
     .opA_i({THETAMAX_P[15:0], 32'd0}), 
-    .opB_i({16'd0, 20'b00000100011101111101, 12'd0}), 
+    .opB_i({16'd0, 32'b00000100011101111101000110101000}), 
     .ready_o(thetaM_ready_w),
     .result_o(thetaM_w)
 );
