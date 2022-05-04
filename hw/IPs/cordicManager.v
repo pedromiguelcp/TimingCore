@@ -64,13 +64,6 @@ wire [15:0] cordic_sin_w;
 assign cordic_cos_w = thetaCos_w[33] ? {1'b1,~thetaCos_w[32:18] + 1'b1}:thetaCos_w[33:18];
 assign cordic_sin_w = thetaSin_w[33:18];
 
-
-/*wire [11:0] theta_iteration_w;
-wire        theta_iteration_valid_w;
-assign theta_iteration_w = edge_theta_valid_i ? edge_theta_i: theta_iteration_i;
-assign theta_iteration_valid_w = edge_theta_valid_i | theta_iteration_valid_i;*/
-
-
 //Check for new dt_tick
 always @(posedge clk_i or negedge nrst_i) begin
   if(~nrst_i) begin

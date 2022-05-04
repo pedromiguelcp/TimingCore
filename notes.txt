@@ -1,31 +1,28 @@
 timing core primeira iteração no estado Trigger
-primeiro timestamp = 0
 calcular só metade dos ticks
 
-nao começar com o numero de ticks=0 para nao disparar nas pontas
 o que conta sao o numero de pontos por isso ele conta sempre os 360
-conta para um lado e para o outro
 ver diferença de ticks nas varias regioes
 contar clock cycles para cada operação
     fazer diagrama temporal
-explicar com exemplos pq os ticks têm de começar com step 0
-    senao fica o frame mais para o outro lado e existe na mesma a distorção
-    alem disso é só 1 coluna de pontos no meio de 1800*100
 maquina de estados vai logo para o trigger antes de esperar pelo 1º dt_tick
 
 tem de haver organização dos dados pq eles estão direitos e invertidos
-nas extremidades do FOV não era preciso ser tao intercalado pq o feixe tem tempo de chegar
-    para menor complexidade referencia sera o meio
-    medir exatamente o tempo entre disparos na versao sequencial
 numero de pontos por linha tem de estar em concordancia com o numero de colunas (20, 360; 19, 361)
     nao pode dar numero frac
-
-relembrar que o numero de pontos por linha tem de ser bem escolhido
+    numero de pontos por linha tem de ser bem escolhido
 
 poderá haver um erro crescente visto que o espelho faz mais periodos horizontais
     sincronizar levaria ao dobro do tempo
         disparos só no movimento numa direção
+    usar line completed para sincronismo
 
 calcular só metade e preencher posiçoes da memoria diferentes
 
 last edge tick with big difference 
+
+colisão das brams
+    enable para ler
+
+entradas em vez dos parametros
+    para ser configurado pelo sw
