@@ -22,7 +22,14 @@ calcular só metade e preencher posiçoes da memoria diferentes
 last edge tick with big difference 
 
 colisão das brams
-    enable para ler
+    não existe monitorização para reconhecer os w_en
+    sempre que haja 2 addr iguais
 
 entradas em vez dos parametros
     para ser configurado pelo sw
+    depois de validado por causa do io
+
+update freq_i quando começar a calcular apenas
+
+todas as operações basicas em fixed point signed
+    extremamente otimizadas

@@ -185,7 +185,9 @@ assign timestamp_o  =   (mem_grp_r == 3'b000)   ?   timestamp_w[0]  :
                         (mem_grp_r == 3'b010)   ?   timestamp_w[2]  :
                         (mem_grp_r == 3'b011)   ?   timestamp_w[3]  :
                         (mem_grp_r == 3'b100)   ?   timestamp_w[4]  :    timestamp_w[0];
-                        
+
+//assign timestamp_o  =   timestamp_w[mem_grp_r];
+
 //ACTIVE PIXEL MEMORY INSTANCES
 genvar j;
 generate

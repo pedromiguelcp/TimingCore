@@ -37,7 +37,7 @@ wire        pre_thetaSin_ready_w;
 wire [33:0] pre_thetaSin_w;
 
 
-fixed_mul #(32,34) mul_uut (//thetaCos_i^2
+new_fixed_mul #(32,34) mul_uut (//thetaCos_i^2
     .clk_i(clk_i),
     .nrst_i(nrst_i),
     .valid_i(thetaCos_valid_i),

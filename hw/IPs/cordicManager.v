@@ -21,9 +21,9 @@
 
 
 module cordicManager #(
-  parameter   FRAME_COLUMNS_P = 360,
-  parameter   FRAME_NUMBER_P  = 5,
-  parameter   THETAMAX_P      = 9
+  parameter   [4:0]   THETAMAX_P      = 9,//up to 31
+  parameter   [9:0]   FRAME_COLUMNS_P = 360,//up to 1023
+  parameter   [2:0]   FRAME_NUMBER_P  = 5//up to 7
 )(
   input           clk_i,
   input           nrst_i,
@@ -89,7 +89,7 @@ fixed_div #(20,39) div_uut(//arctang*freq_i/(2*pi)
   .result_o(dtTicks_w)
 );
 
-fixed_mul #(13,32) mul_uut(//arctang*freq_i
+new_fixed_mul #(13,32) mul_uut(//arctang*freq_i
   .clk_i(clk_i),
   .nrst_i(nrst_i),
   .valid_i(cordic_dout_tvalid_w),

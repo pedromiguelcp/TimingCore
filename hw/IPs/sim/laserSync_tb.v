@@ -21,26 +21,29 @@
 
 module laserSync_tb #
 (
-    parameter   SYSCLOCK_P          = 500000000, //500MHz
-    parameter   THETAMAX_P          = 9,
-    parameter   FRAME_COLUMNS_P     = 360,
-    parameter   FRAME_LINES_P       = 100,
-    parameter   FRAME_NUMBER_P      = 5,
-    parameter   MEM_CYCLES_P        = 13,
-    parameter   PULSE_LENGTH_P      = 5,
-    parameter   LINE_POINTS_P       = 20,
-    parameter   MIRROR_FREQ_P       = 10800,
-    localparam  PASSAGES_P          = (FRAME_COLUMNS_P/LINE_POINTS_P),
-    localparam  SYS_MIRROR_RATIO_P  = (SYSCLOCK_P/MIRROR_FREQ_P)
+    parameter           SYSCLOCK_P          = 500000000, //500MHz
+    parameter   [4:0]   THETAMAX_P          = 9,//up to 31
+    parameter   [9:0]   FRAME_COLUMNS_P     = 360,//up to 1023
+    parameter   [7:0]   FRAME_LINES_P       = 100,//up to 255
+    parameter   [2:0]   FRAME_NUMBER_P      = 5,//up to 7
+    parameter   [7:0]   MEM_CYCLES_P        = 15,
+    parameter   [4:0]   PULSE_LENGTH_P      = 5,
+    parameter   [9:0]   LINE_POINTS_P       = 20,
+    parameter           MIRROR_FREQ_P       = 10800,
+    localparam  [9:0]   PASSAGES_P          = (FRAME_COLUMNS_P/LINE_POINTS_P),
+    localparam  [11:0]  TOTAL_POINTS_P      = (FRAME_COLUMNS_P*FRAME_NUMBER_P),//up to 4095
+    localparam          SYS_MIRROR_RATIO_P  = (SYSCLOCK_P/MIRROR_FREQ_P)
 )();
 
 reg         clk_r, nrst_r, zc_r;
 reg [15:0]  cnt_clock_tick_r;
 
 wire        laser_trigger_w;
+wire  [2:0] mem_select_w;
 wire        wedata_dtTicks_w;
 wire [15:0] wdata_dtTicks_w;
 wire [10:0] waddr_dtTicks_w;
+reg         done_r;
 
 initial begin
     $display("\n\n**************LASER SYNC tb********************\n");
@@ -69,20 +72,8 @@ always @(posedge clk_r or negedge nrst_r) begin
         end
     end
 end
-/*
-nao começar com o numero de ticks=0 para nao disparar nas pontas
-o que conta sao o numero de pontos por isso ele conta sempre os 360
-conta para um lado e para o outro
-ver diferença de ticks nas varias regioes
-contar clock cycles para cada operação
-    fazer diagrama temporal
-explicar com exemplos pq os ticks têm de começar com step 0
-    senao fica o frame mais para o outro lado e existe na mesma a distorção
-    alem disso é só 1 coluna de pontos no meio de 1800*100
-maquina de estados vai logo para o trigger antes de esperar pelo 1º dt_tick
-*/
 
-/*
+
 integer f0, f1, f2, f3, f4;
 initial begin
   f0 = $fopen("dt_Ticks_Frame0.txt","w");
@@ -91,25 +82,31 @@ initial begin
   f3 = $fopen("dt_Ticks_Frame3.txt","w");
   f4 = $fopen("dt_Ticks_Frame4.txt","w");
 end
-always @(posedge clk_i) begin
-    if(wen_i) begin
-        if(memory_selector_i == 3'b000) begin
-            $fwrite(f0,"%d\n",wdata_i[15:0]);
+
+always @(posedge clk_r or negedge nrst_r) begin
+    if(~nrst_r) begin
+        done_r <= 1'b0;
+    end
+    else if(wedata_dtTicks_w) begin
+        if(mem_select_w == 3'b000) begin
+            $fwrite(f0,"%d\n",wdata_dtTicks_w[15:0]);
         end
-        else if(memory_selector_i == 3'b001) begin
-            $fwrite(f1,"%d\n",wdata_i[15:0]);
+        else if(mem_select_w == 3'b001) begin
+            $fwrite(f1,"%d\n",wdata_dtTicks_w[15:0]);
         end
-        else if(memory_selector_i == 3'b010) begin
-            $fwrite(f2,"%d\n",wdata_i[15:0]);
+        else if(mem_select_w == 3'b010) begin
+            $fwrite(f2,"%d\n",wdata_dtTicks_w[15:0]);
         end
-        else if(memory_selector_i == 3'b011) begin
-            $fwrite(f3,"%d\n",wdata_i[15:0]);
+        else if(mem_select_w == 3'b011) begin
+            $fwrite(f3,"%d\n",wdata_dtTicks_w[15:0]);
         end
-        else if(memory_selector_i == 3'b100) begin
-            $fwrite(f4,"%d\n",wdata_i[15:0]);
+        else if(mem_select_w == 3'b100) begin
+            $fwrite(f4,"%d\n",wdata_dtTicks_w[15:0]);
         end
     end
-    if (waddr_i >= 11'd360) begin
+    if ((mem_select_w == 3'b100) & (waddr_dtTicks_w >= 359) & wedata_dtTicks_w) begin
+        done_r <= 1'b1;
+
         $fclose(f0);
         $fclose(f1);
         $fclose(f2);
@@ -117,7 +114,12 @@ always @(posedge clk_i) begin
         $fclose(f4);
     end
 end
-*/
+
+always @(posedge clk_r or negedge nrst_r) begin
+    if(done_r) begin
+        $finish;
+    end
+end
 
 laserSynchronizer #(
     .SYSCLOCK_P(SYSCLOCK_P),
@@ -136,9 +138,9 @@ laserSynchronizer #(
     .freq_i(SYS_MIRROR_RATIO_P[23:0]),
 
     .laser_trigger_o(laser_trigger_w),
+    .mem_select_o(mem_select_w),
     .wedata_dtTicks_o(wedata_dtTicks_w),
     .wdata_dtTicks_o(wdata_dtTicks_w),
     .waddr_dtTicks_o(waddr_dtTicks_w)
 );
-
 endmodule
