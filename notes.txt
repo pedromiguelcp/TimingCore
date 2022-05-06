@@ -1,4 +1,3 @@
-timing core primeira iteração no estado Trigger
 calcular só metade dos ticks
 
 o que conta sao o numero de pontos por isso ele conta sempre os 360
@@ -33,3 +32,10 @@ update freq_i quando começar a calcular apenas
 
 todas as operações basicas em fixed point signed
     extremamente otimizadas
+
+TC vai logo para o trigger pq o primeiro tick=0
+    evita o problema de enable do contador
+        delay para dar reset
+    como incrementa a leitura também nao ha problema
+incremeto do read addr é feito 1 clock mais cedo 
+    delay da memória para satisfazer requisitos de timing

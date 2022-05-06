@@ -70,8 +70,8 @@ new_fixed_mul #(32,37) mul_uut (//thetaM (thetaMAX*pi/180)
     .clk_i(clk_i),
     .nrst_i(nrst_i),
     .valid_i(thetaM_valid_r),
-    .opA_i({THETAMAX_P, 32'd0}), 
-    .opB_i({5'd0, 32'b00000100011101111101000110101000}), 
+    .opA_i({THETAMAX_P, {32{1'b0}}}), 
+    .opB_i({{5{1'b0}}, 32'b00000100011101111101000110101000}), 
     .ready_o(thetaM_ready_w),
     .result_o(thetaM_w)
 );
@@ -80,8 +80,8 @@ fixed_div #(26,38) div_uut (//2/(TOTAL_POINTS_P-1)
     .clk_i(clk_i),
     .nrst_i(nrst_i),
     .valid_i(mirrorStepPoints_valid_r), 
-    .opA_i({12'd2, 26'd0}), 
-    .opB_i({TOTAL_POINTS_P - 1'b1, 26'd0}), 
+    .opA_i({12'd2, {26{1'b0}}}), 
+    .opB_i({TOTAL_POINTS_P - 1'b1, {26{1'b0}}}), 
     .ready_o(mirrorStepPoints_ready_w),
     .result_o(mirrorStepPoints_w)
 );
@@ -90,7 +90,7 @@ new_fixed_mul #(32,34) mul_uut2 (//mirrorStep (thetaM*(2/(TOTAL_POINTS_P-1)) )
     .clk_i(clk_i),
     .nrst_i(nrst_i),
     .valid_i(thetaM_ready_w & mirrorStepPoints_ready_w),
-    .opA_i({mirrorStepPoints_w[27:0], 6'd0}), 
+    .opA_i({mirrorStepPoints_w[27:0], {6{1'b0}}}), 
     .opB_i(thetaM_w[33:0]), 
     .ready_o(mirrorStep_ready_w),
     .result_o(mirrorStep_w)
@@ -100,8 +100,8 @@ new_fixed_mul #(32,48) mul_uut3 (//thetaIt*mirrorStep
     .clk_i(clk_i),
     .nrst_i(nrst_i),
     .valid_i(mirrorStep_ready_w & theta_iteration_valid_i),
-    .opA_i({4'd0, theta_iteration_i, 32'd0}), 
-    .opB_i({14'd0, mirrorStep_w}), 
+    .opA_i({{4{1'b0}}, theta_iteration_i, {32{1'b0}}}), 
+    .opB_i({{14{1'b0}}, mirrorStep_w}), 
     .ready_o(thetaItStep_ready_w),
     .result_o(thetaItStep_w)
 );

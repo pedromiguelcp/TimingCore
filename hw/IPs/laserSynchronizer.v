@@ -43,18 +43,19 @@ module laserSynchronizer #(
     input   [23:0]  freq_i,
 
     output          laser_trigger_o,
+    output          line_completed_o,
 
     output [2:0]    mem_select_o, //remove
     output          wedata_dtTicks_o, //remove
     output [15:0]   wdata_dtTicks_o,//remove
-    output [10:0]   waddr_dtTicks_o//remove
+    output [8:0]    waddr_dtTicks_o//remove
 );
 
 //TIMING CORE
 wire [15:0] quarter_mirror_cycle_delay_w;
-wire        update_mem_w, line_completed_w;
+wire        update_mem_w;
 reg  [16:0] wdata_r;
-reg  [10:0] waddr_r;
+reg  [8:0]  waddr_r;
 reg  [2:0]  mem_select_r;
 reg         mem_updated_r;
 reg         we_r;
@@ -81,7 +82,7 @@ reg         theta_valid_r;
 
 //LASER SYNC
 reg [15:0]  edgeTicks_r [0:FRAME_NUMBER_P-1];
-wire [15:0]  edgeTick_data_w;
+wire [15:0] edgeTick_data_w;
 reg [2:0]   edgeTicks_select_r;
 reg [15:0]  last_dt_Ticks_r;
 reg [9:0]   line_points_cnt_r;
@@ -157,7 +158,7 @@ always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         edgeTicks_select_r <= 3'b000; 
         for (i=0; i<FRAME_NUMBER_P; i=i+1) begin
-            edgeTicks_r[i] <= 16'd0;
+            edgeTicks_r[i] <= {16{1'b0}};
         end  
     end
     else begin 
@@ -180,8 +181,8 @@ end
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         frame_number_cnt_r <= 3'b000;
-        passages_cnt_r  <= 10'd0;
-        line_points_cnt_r <= 10'd0;
+        passages_cnt_r  <= {10{1'b0}};
+        line_points_cnt_r <= {10{1'b0}};
     end
     else if(cur_state_r == `MEM_UPDATE) begin
         
@@ -190,12 +191,12 @@ always @(posedge clk_i or negedge nrst_i) begin
                 line_points_cnt_r <= line_points_cnt_r + 1'b1;
             end
             else begin
-                line_points_cnt_r <= 10'd0;
+                line_points_cnt_r <= {10{1'b0}};
                 if(passages_cnt_r < PASSAGES_P-1) begin//18
                     passages_cnt_r <= passages_cnt_r + 1'b1;
                 end
                 else begin
-                    passages_cnt_r <= 10'd0;
+                    passages_cnt_r <= {10{1'b0}};
                     if (frame_number_cnt_r < FRAME_NUMBER_P-1) begin//5
                         frame_number_cnt_r <= frame_number_cnt_r + 1'b1;
                     end
@@ -208,8 +209,8 @@ always @(posedge clk_i or negedge nrst_i) begin
         
     end
     else begin
-        line_points_cnt_r <= 10'd0;
-        passages_cnt_r <= 10'd0;
+        line_points_cnt_r <= {10{1'b0}};
+        passages_cnt_r <= {10{1'b0}};
         frame_number_cnt_r <= 3'b000;
     end
 end
@@ -218,14 +219,14 @@ end
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         theta_valid_r   <= 1'b0;
-        theta_aux0_r    <= 12'd0;
-        theta_aux1_r    <= 12'd0;
+        theta_aux0_r    <= {12{1'b0}};
+        theta_aux1_r    <= {12{1'b0}};
         theta_data_r    <= TOTAL_POINTS_P - FRAME_NUMBER_P;
     end
     else begin 
         //THETA VALID
-        if((cur_state_r == `IDLE) & ticks_update_r) begin // trigger computation when previous state done
-            theta_valid_r <= 1'b1;
+        if(cur_state_r == `IDLE) begin // trigger computation when previous state done
+            theta_valid_r <= ticks_update_r;
         end
         else if(cur_state_r == `EDGE_TICKS) begin
             if(tick_Valid_w) begin
@@ -248,7 +249,7 @@ always @(posedge clk_i or negedge nrst_i) begin
                 theta_data_r <= theta_data_r + 1'b1; 
             end
             else if(edgeTicks_saved_r) begin
-                theta_data_r <= 12'd0;
+                theta_data_r <= {12{1'b0}};
             end
         end
         else if(cur_state_r == `MEM_UPDATE) begin
@@ -265,12 +266,13 @@ always @(posedge clk_i or negedge nrst_i) begin
 end
 
 assign edgeTick_data_w =  edgeTicks_r[frame_number_cnt_r] - last_dt_Ticks_r;
+
 //DATA TICKS
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
-        waddr_r         <= 11'd0;
-        wdata_r         <= 17'd0;
-        last_dt_Ticks_r <= 16'd0;
+        waddr_r         <= {9{1'b0}};
+        wdata_r         <= {17{1'b0}};
+        last_dt_Ticks_r <= {16{1'b0}};
         we_r            <= 1'b0;
         mem_select_r    <= 3'b000;
         active_pixel_r  <= 1'b1; //enable every pixel
@@ -279,14 +281,14 @@ always @(posedge clk_i or negedge nrst_i) begin
         //DATA TICKS
         if(cur_state_r == `MEM_UPDATE) begin
             if(tick_Valid_w) begin
-                if((passages_cnt_r == 10'd0) & (line_points_cnt_r == 10'd0)) begin//1st iteration
-                    wdata_r[15:0]   <= tick_data_w;
+                if(line_points_cnt_r > {10{1'b0}}) begin//elsewhere
+                    wdata_r[15:0]   <= tick_data_w - last_dt_Ticks_r;
                 end
-                else if(line_points_cnt_r == 10'd0) begin//mirror in the edges
+                else if(passages_cnt_r > {10{1'b0}}) begin//mirror in the edges
                     wdata_r[15:0]   <= tick_data_w + edgeTick_data_w;
                 end
-                else begin//elsewhere
-                    wdata_r[15:0]   <= tick_data_w - last_dt_Ticks_r;
+                else begin//1st iteration
+                    wdata_r[15:0]   <= tick_data_w;
                 end
 
                 wdata_r[16]     <= active_pixel_r;
@@ -294,8 +296,8 @@ always @(posedge clk_i or negedge nrst_i) begin
             end
         end
         else begin
-            wdata_r         <= 17'd0;
-            last_dt_Ticks_r <= 16'd0;
+            wdata_r         <= {17{1'b0}};
+            last_dt_Ticks_r <= {16{1'b0}};
         end
 
         //ADDR TICKS
@@ -305,23 +307,19 @@ always @(posedge clk_i or negedge nrst_i) begin
                     waddr_r <= waddr_r + 1'b1;
                 end
                 else begin
-                    waddr_r <= 11'd0;
+                    waddr_r <= {9{1'b0}};
                 end
             end
         end
         else begin
-            waddr_r <= 11'd0;
+            waddr_r <= {9{1'b0}};
         end
 
         //STORE TICKS
-        if((cur_state_r == `MEM_UPDATE) & tick_Valid_w) begin
-            we_r            <= 1'b1;
-        end
-        else begin
-            we_r            <= 1'b0;
-        end
+        we_r            <= ((cur_state_r == `MEM_UPDATE) & tick_Valid_w) ? 1'b1 : 1'b0;
 
-        mem_select_r    <= frame_number_cnt_r; //delay needed when switching between frame mems
+        //FRAME MEM 
+        mem_select_r    <= frame_number_cnt_r; 
     end
 end
 
@@ -362,6 +360,6 @@ timingCore TC_uut(
     
     .update_mem_o(update_mem_w), // update MEM0 | MEM1
     .laser_trigger_o(laser_trigger_o), // trigger lase beam
-    .line_completed_o(line_completed_w) // for top level sync
+    .line_completed_o(line_completed_o) // for top level sync
 );
 endmodule

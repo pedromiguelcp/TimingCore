@@ -33,7 +33,7 @@ module timingCore(
     input           nrst_i,
     input           zc_i,
     //MEMORIES INTERFACE
-    input   [10:0]  waddr_i,
+    input   [8:0]   waddr_i,
     input   [16:0]  wdata_i,
     input           we_i,
     input   [2:0]   memory_selector_i,
@@ -71,7 +71,7 @@ wire            active_pixel_w;
 
 //STATE MACHINE OUTPUT SIGNALS
 reg             trigger_r;
-reg     [10:0]  raddr_r;
+reg     [8:0]   raddr_r;
 reg             new_line_r;
 reg             cnt_en_r;
 
@@ -79,7 +79,7 @@ reg             cnt_en_r;
 assign nxt_state_w  =   (cur_state_r == `IDLE & ~zc_edge_w)             ?   `IDLE       :
                         (cur_state_r == `IDLE & zc_edge_w)              ?   `WAIT       :
                         (cur_state_r == `WAIT & ~wait_over_r)           ?   `WAIT       :
-                        (cur_state_r == `WAIT & wait_over_r)            ?   `DELAY      ://delay?
+                        (cur_state_r == `WAIT & wait_over_r)            ?   `TRIGGER    ://delay?
                         (cur_state_r == `TRIGGER & ~line_completed_r)   ?   `DELAY      :
                         (cur_state_r == `TRIGGER & line_completed_r)    ?   `NEW_LINE   :
                         (cur_state_r == `DELAY & ~fire_next_point_r)    ?   `DELAY      :
@@ -132,7 +132,7 @@ end
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         new_line_r <= 1'b0;
-        raddr_r <= {11{1'b0}};
+        raddr_r <= {9{1'b0}};
         trigger_r <= 1'b0;
         cnt_en_r <= 1'b0;
     end
@@ -144,12 +144,12 @@ always @(posedge clk_i or negedge nrst_i) begin
             new_line_r <= 1'b0;
         end
         
-        if(cur_state_r == `TRIGGER) begin
+        if(nxt_state_w == `TRIGGER) begin
             if(raddr_r < points_per_line_i) begin
                 raddr_r <= raddr_r + 1'b1;
             end
             else begin
-                raddr_r <= {11{1'b0}};
+                raddr_r <= {9{1'b0}};
             end
         end
         

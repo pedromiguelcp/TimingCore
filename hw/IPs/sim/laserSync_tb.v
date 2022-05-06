@@ -39,10 +39,11 @@ reg         clk_r, nrst_r, zc_r;
 reg [15:0]  cnt_clock_tick_r;
 
 wire        laser_trigger_w;
+wire        line_completed_w;
 wire  [2:0] mem_select_w;
 wire        wedata_dtTicks_w;
 wire [15:0] wdata_dtTicks_w;
-wire [10:0] waddr_dtTicks_w;
+wire [8:0]  waddr_dtTicks_w;
 reg         done_r;
 
 initial begin
@@ -59,7 +60,7 @@ end
 always #1 clk_r = ~clk_r; // 500MHz
 always @(posedge clk_r or negedge nrst_r) begin
     if(~nrst_r) begin
-        cnt_clock_tick_r    <= 16'd0;
+        cnt_clock_tick_r    <= {16{1'b0}};
         zc_r                <= 1'b0;
     end
     else begin
@@ -67,7 +68,7 @@ always @(posedge clk_r or negedge nrst_r) begin
             cnt_clock_tick_r <= cnt_clock_tick_r + 1'b1;
         end
         else begin
-            cnt_clock_tick_r <= 16'd0;
+            cnt_clock_tick_r <= {16{1'b0}};
             zc_r <= ~zc_r;
         end
     end
@@ -87,7 +88,7 @@ always @(posedge clk_r or negedge nrst_r) begin
     if(~nrst_r) begin
         done_r <= 1'b0;
     end
-    else if(wedata_dtTicks_w) begin
+    else if(~done_r & wedata_dtTicks_w) begin
         if(mem_select_w == 3'b000) begin
             $fwrite(f0,"%d\n",wdata_dtTicks_w[15:0]);
         end
@@ -112,14 +113,15 @@ always @(posedge clk_r or negedge nrst_r) begin
         $fclose(f2);
         $fclose(f3);
         $fclose(f4);
+        $display("\n\n**************END********************\n");
     end
 end
 
-always @(posedge clk_r or negedge nrst_r) begin
+/*always @(posedge clk_r or negedge nrst_r) begin
     if(done_r) begin
         $finish;
     end
-end
+end*/
 
 laserSynchronizer #(
     .SYSCLOCK_P(SYSCLOCK_P),
@@ -138,6 +140,7 @@ laserSynchronizer #(
     .freq_i(SYS_MIRROR_RATIO_P[23:0]),
 
     .laser_trigger_o(laser_trigger_w),
+    .line_completed_o(line_completed_w),
     .mem_select_o(mem_select_w),
     .wedata_dtTicks_o(wedata_dtTicks_w),
     .wdata_dtTicks_o(wdata_dtTicks_w),

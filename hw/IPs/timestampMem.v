@@ -21,11 +21,11 @@
 
 module timestampMem(
     input           clk_i,
-    input   [10:0]  waddr_i,
+    input   [8:0]   waddr_i,
     input   [15:0]  wdata_i,
     input           wen_i,
     input           mem_selector_i, //SELECTS WHICH IS THE MEMORY BEING UPDATED
-    input   [10:0]  raddr_i,
+    input   [8:0]   raddr_i,
     output  [15:0]  timestamp_o
 );
 

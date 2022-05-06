@@ -51,7 +51,7 @@ fixed_sub #(32,34) sub_uut (//1-(thetaCos_i^2)
     .clk_i(clk_i),
     .nrst_i(nrst_i),
     .valid_i(squared_thetaCos_ready_w),
-    .opA_i({2'd1, 32'd0}), 
+    .opA_i({2'b01, {32{1'b0}}}), 
     .opB_i(squared_thetaCos_w), 
     .ready_o(pre_thetaSin_ready_w),
     .result_o(pre_thetaSin_w)

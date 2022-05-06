@@ -37,11 +37,11 @@ module memoryManager(
     input   [7:0]   mem_cycles_i,
     input   [7:0]   lines_per_frame_i,
     input   [2:0]   number_of_frames_i,
-    input   [10:0]  waddr_i,
+    input   [8:0]   waddr_i,
     input   [16:0]  wdata_i,
     input           wen_i,
     input   [2:0]   memory_selector_i,
-    input   [10:0]  raddr_i,
+    input   [8:0]   raddr_i,
     output          update_mem_o,
     output          active_pixel_o,
     output  [15:0]  timestamp_o
