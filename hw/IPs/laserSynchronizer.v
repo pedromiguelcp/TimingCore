@@ -28,9 +28,9 @@ module laserSynchronizer #(
     parameter           SYSCLOCK_P      = 500000000, //500MHz
     parameter   [4:0]   THETAMAX_P      = 9,//up to 31
     parameter   [9:0]   FRAME_COLUMNS_P = 360,//up to 1023
-    parameter   [7:0]   FRAME_LINES_P   = 100,//up to 255
+    parameter   [7:0]   FRAME_LINES_P   = 2,//up to 255
     parameter   [2:0]   FRAME_NUMBER_P  = 5,//up to 7
-    parameter   [7:0]   MEM_CYCLES_P    = 15,
+    parameter   [7:0]   MEM_CYCLES_P    = 2,
     parameter   [4:0]   PULSE_LENGTH_P  = 5,
     parameter   [9:0]   LINE_POINTS_P   = 20,
     localparam  [9:0]   PASSAGES_P      = (FRAME_COLUMNS_P/LINE_POINTS_P),
@@ -133,6 +133,7 @@ always @(posedge clk_i or negedge nrst_i) begin
 end
 
 
+
 //MEMORY SWITCH
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
@@ -163,7 +164,7 @@ always @(posedge clk_i or negedge nrst_i) begin
     end
     else begin 
         if((cur_state_r == `EDGE_TICKS) & tick_Valid_w) begin
-                edgeTicks_r[edgeTicks_select_r] <= tick_data_w;
+            edgeTicks_r[edgeTicks_select_r] <= tick_data_w;
         end
 
         if(cur_state_r == `EDGE_TICKS) begin
@@ -249,11 +250,11 @@ always @(posedge clk_i or negedge nrst_i) begin
                 theta_data_r <= theta_data_r + 1'b1; 
             end
             else if(edgeTicks_saved_r) begin
-                theta_data_r <= {12{1'b0}};
+                theta_data_r <= {12{1'b0}};//1st frame theta=0
             end
         end
         else if(cur_state_r == `MEM_UPDATE) begin
-            theta_aux0_r <= line_points_cnt_r * THETA_STEP_P;
+            theta_aux0_r <= line_points_cnt_r * THETA_STEP_P;//pipeline for timing
             theta_aux1_r <= (passages_cnt_r >> 1) * FRAME_NUMBER_P;
             if(tick_notValid_w) begin
                 theta_data_r <= theta_aux0_r + theta_aux1_r + frame_number_cnt_r;

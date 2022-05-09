@@ -30,9 +30,6 @@ entradas em vez dos parametros
 
 update freq_i quando começar a calcular apenas
 
-todas as operações basicas em fixed point signed
-    extremamente otimizadas
-
 TC vai logo para o trigger pq o primeiro tick=0
     evita o problema de enable do contador
         delay para dar reset

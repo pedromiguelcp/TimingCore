@@ -24,9 +24,9 @@ module laserSync_tb #
     parameter           SYSCLOCK_P          = 500000000, //500MHz
     parameter   [4:0]   THETAMAX_P          = 9,//up to 31
     parameter   [9:0]   FRAME_COLUMNS_P     = 360,//up to 1023
-    parameter   [7:0]   FRAME_LINES_P       = 100,//up to 255
+    parameter   [7:0]   FRAME_LINES_P       = 2,//up to 255
     parameter   [2:0]   FRAME_NUMBER_P      = 5,//up to 7
-    parameter   [7:0]   MEM_CYCLES_P        = 15,
+    parameter   [7:0]   MEM_CYCLES_P        = 2,
     parameter   [4:0]   PULSE_LENGTH_P      = 5,
     parameter   [9:0]   LINE_POINTS_P       = 20,
     parameter           MIRROR_FREQ_P       = 10800,

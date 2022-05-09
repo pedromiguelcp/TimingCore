@@ -61,6 +61,7 @@ reg             line_completed_r;
 reg             fire_next_point_r;
 
 wire    [15:0]  cnt_w;
+wire    [15:0]  ticks_cnt_w;
 
 
 //reg     [9:0]   points_per_line_r;
@@ -74,12 +75,13 @@ reg             trigger_r;
 reg     [8:0]   raddr_r;
 reg             new_line_r;
 reg             cnt_en_r;
+reg             ticks_cnt_en_r;
 
 //STATE MACHINE
 assign nxt_state_w  =   (cur_state_r == `IDLE & ~zc_edge_w)             ?   `IDLE       :
                         (cur_state_r == `IDLE & zc_edge_w)              ?   `WAIT       :
                         (cur_state_r == `WAIT & ~wait_over_r)           ?   `WAIT       :
-                        (cur_state_r == `WAIT & wait_over_r)            ?   `TRIGGER    ://delay?
+                        (cur_state_r == `WAIT & wait_over_r)            ?   `DELAY      ://delay?
                         (cur_state_r == `TRIGGER & ~line_completed_r)   ?   `DELAY      :
                         (cur_state_r == `TRIGGER & line_completed_r)    ?   `NEW_LINE   :
                         (cur_state_r == `DELAY & ~fire_next_point_r)    ?   `DELAY      :
@@ -119,7 +121,7 @@ always @(posedge clk_i or negedge nrst_i) begin
             line_completed_r <= 1'b0;
         end
         
-        if(cnt_w >= timestamp_w & cur_state_r == `DELAY) begin
+        if(ticks_cnt_w >= timestamp_w & cur_state_r == `DELAY) begin
             fire_next_point_r <= 1'b1;
         end
         else begin
@@ -135,6 +137,7 @@ always @(posedge clk_i or negedge nrst_i) begin
         raddr_r <= {9{1'b0}};
         trigger_r <= 1'b0;
         cnt_en_r <= 1'b0;
+        ticks_cnt_en_r <= 1'b0;
     end
     else begin
         if(cur_state_r == `NEW_LINE) begin
@@ -160,11 +163,18 @@ always @(posedge clk_i or negedge nrst_i) begin
             trigger_r <= 1'b0;
         end
         
-        if(nxt_state_w == `WAIT | nxt_state_w == `DELAY) begin
+        if(nxt_state_w == `WAIT) begin
             cnt_en_r <= 1'b1;
         end
         else begin
             cnt_en_r <= 1'b0;
+        end
+
+        if(nxt_state_w == `DELAY) begin
+            ticks_cnt_en_r <= 1'b1;
+        end
+        else begin
+            ticks_cnt_en_r <= 1'b0;
         end
     end
 end
@@ -177,12 +187,20 @@ edgeDetector edgeDetector_inst(
     .edge_o(zc_edge_w)
 );
 
-//COUNTER INSTANCE
+//QUARTER CYCLE COUNTER
 counter cnt_inst(
     .clk_i(clk_i),
     .nrst_i(nrst_i),
     .en_i(cnt_en_r),
     .cnt_o(cnt_w)
+);
+
+//TICKS COUNTER
+counter ticks_cnt_inst(
+    .clk_i(clk_i),
+    .nrst_i(nrst_i),
+    .en_i(ticks_cnt_en_r),
+    .cnt_o(ticks_cnt_w)
 );
 
 //LASER DRIVER

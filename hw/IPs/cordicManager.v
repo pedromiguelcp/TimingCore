@@ -29,8 +29,6 @@ module cordicManager #(
   input           clk_i,
   input           nrst_i,
   input   [23:0]  freq_i,
-  //input           edge_theta_valid_i,
-  //input   [11:0]  edge_theta_i,
   input           theta_iteration_valid_i,
   input   [11:0]  theta_iteration_i,
 
@@ -63,7 +61,7 @@ assign  dt_Ticks_o        = dtTicks_w[35:20];
 wire [15:0] cordic_cos_w;
 wire [15:0] cordic_sin_w;
 assign cordic_cos_w = thetaCos_w[33] ? {1'b1,~thetaCos_w[32:18] + 1'b1}:thetaCos_w[33:18];
-assign cordic_sin_w = (theta_iteration_i == TOTAL_POINTS_P-1) ? {16{1'b0}} : thetaSin_w[33:18];
+assign cordic_sin_w = (theta_iteration_i == TOTAL_POINTS_P-1) ? {16{1'b0}} : thetaSin_w[33:18];//error correction for cordic
 
 //Check for new dt_tick
 always @(posedge clk_i or negedge nrst_i) begin
