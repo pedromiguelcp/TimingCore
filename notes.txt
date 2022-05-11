@@ -36,3 +36,9 @@ TC vai logo para o trigger pq o primeiro tick=0
     como incrementa a leitura também nao ha problema
 incremeto do read addr é feito 1 clock mais cedo 
     delay da memória para satisfazer requisitos de timing
+
+core do laserSync não está bem
+
+tempos sw vs hw
+
+limpar notes
