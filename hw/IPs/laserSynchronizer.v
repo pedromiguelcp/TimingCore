@@ -78,11 +78,12 @@ wire [15:0] tick_data_w;
 wire        tick_Valid_w;
 wire        tick_notValid_w;
 reg  [11:0] theta_data_r, theta_aux0_r, theta_aux1_r;
+reg  [2:0]  theta_ref_r;
 reg         theta_valid_r;
 
 //LASER SYNC
-reg [15:0]  edgeTicks_r [0:FRAME_NUMBER_P-1];
-wire [15:0] edgeTick_data_w;
+reg [15:0]  edgeTicks_r;
+wire [15:0] rem_cycle_w;
 reg [2:0]   edgeTicks_select_r;
 reg [15:0]  last_dt_Ticks_r;
 reg [9:0]   line_points_cnt_r;
@@ -90,6 +91,7 @@ reg [9:0]   passages_cnt_r;
 reg [2:0]   frame_number_cnt_r;
 reg [1:0]   mem_switch_r;
 reg         ticks_update_r;
+reg         edgeTicks_stored_r;
 reg         active_pixel_r;
 integer     i;
 
@@ -116,7 +118,7 @@ always @(posedge clk_i or negedge nrst_i) begin
         edgeTicks_saved_r  <= 1'b0;
     end
     else begin
-        if((cur_state_r == `EDGE_TICKS) & (edgeTicks_select_r > FRAME_NUMBER_P-1)) begin
+        if((cur_state_r == `EDGE_TICKS) & edgeTicks_stored_r) begin
             edgeTicks_saved_r <= 1'b1;
         end
         else begin
@@ -157,23 +159,21 @@ end
 //EDGE TICK
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
-        edgeTicks_select_r <= 3'b000; 
-        for (i=0; i<FRAME_NUMBER_P; i=i+1) begin
-            edgeTicks_r[i] <= {16{1'b0}};
-        end  
+        edgeTicks_stored_r <= 1'b0; 
+        edgeTicks_r <= {16{1'b0}};
     end
     else begin 
         if((cur_state_r == `EDGE_TICKS) & tick_Valid_w) begin
-            edgeTicks_r[edgeTicks_select_r] <= tick_data_w;
+            edgeTicks_r <= tick_data_w;
         end
 
         if(cur_state_r == `EDGE_TICKS) begin
             if (tick_notValid_w) begin
-                edgeTicks_select_r <= edgeTicks_select_r + 1'b1;
+                edgeTicks_stored_r <= 1'b1;
             end
         end
         else begin
-            edgeTicks_select_r <= 3'b000;
+            edgeTicks_stored_r <= 1'b0;
         end
     end
 end
@@ -216,13 +216,18 @@ always @(posedge clk_i or negedge nrst_i) begin
     end
 end
 
+wire mirror_reverse_w;
+assign mirror_reverse_w = (passages_cnt_r%2) == 0 ? 1'b0 : 1'b1;
+
+
 //THETA ITERATION
 always @(posedge clk_i or negedge nrst_i) begin
     if(~nrst_i) begin
         theta_valid_r   <= 1'b0;
         theta_aux0_r    <= {12{1'b0}};
         theta_aux1_r    <= {12{1'b0}};
-        theta_data_r    <= TOTAL_POINTS_P - FRAME_NUMBER_P;
+        theta_ref_r     <= {3{1'b0}};
+        theta_data_r    <= TOTAL_POINTS_P-1'b1;//edge tick ref
     end
     else begin 
         //THETA VALID
@@ -230,12 +235,7 @@ always @(posedge clk_i or negedge nrst_i) begin
             theta_valid_r <= ticks_update_r;
         end
         else if(cur_state_r == `EDGE_TICKS) begin
-            if(tick_Valid_w) begin
-                theta_valid_r <= 1'b0;
-            end
-            else if (edgeTicks_saved_r | (tick_notValid_w & (edgeTicks_select_r < FRAME_NUMBER_P-1))) begin
-                theta_valid_r <= 1'b1;
-            end
+            theta_valid_r <= tick_Valid_w ? 1'b0 : (edgeTicks_saved_r ? 1'b1 : theta_valid_r);
         end
         else if(cur_state_r == `MEM_UPDATE) begin
             theta_valid_r <= tick_Valid_w ? 1'b0 : (tick_notValid_w ? 1'b1 : theta_valid_r);
@@ -246,27 +246,32 @@ always @(posedge clk_i or negedge nrst_i) begin
 
         //THETA ITERATION
         if(cur_state_r == `EDGE_TICKS) begin
-            if (tick_Valid_w) begin
-                theta_data_r <= theta_data_r + 1'b1; 
-            end
-            else if(edgeTicks_saved_r) begin
+            if(edgeTicks_saved_r) begin
                 theta_data_r <= {12{1'b0}};//1st frame theta=0
             end
         end
         else if(cur_state_r == `MEM_UPDATE) begin
             theta_aux0_r <= line_points_cnt_r * THETA_STEP_P;//pipeline for timing
             theta_aux1_r <= (passages_cnt_r >> 1) * FRAME_NUMBER_P;
+
+            if(mirror_reverse_w) begin
+                theta_ref_r <= FRAME_NUMBER_P-1-frame_number_cnt_r;
+            end
+            else begin
+                theta_ref_r <= frame_number_cnt_r;
+            end
+
             if(tick_notValid_w) begin
-                theta_data_r <= theta_aux0_r + theta_aux1_r + frame_number_cnt_r;
+                theta_data_r <= theta_ref_r + theta_aux0_r + theta_aux1_r;
             end
         end
         else begin
-            theta_data_r <= TOTAL_POINTS_P - FRAME_NUMBER_P;
+            theta_data_r <= TOTAL_POINTS_P - 1'b1;
         end
     end
 end
 
-assign edgeTick_data_w =  edgeTicks_r[frame_number_cnt_r] - last_dt_Ticks_r;
+assign rem_cycle_w = edgeTicks_r - last_dt_Ticks_r;//remaining mirror cycle
 
 //DATA TICKS
 always @(posedge clk_i or negedge nrst_i) begin
@@ -286,7 +291,7 @@ always @(posedge clk_i or negedge nrst_i) begin
                     wdata_r[15:0]   <= tick_data_w - last_dt_Ticks_r;
                 end
                 else if(passages_cnt_r > {10{1'b0}}) begin//mirror in the edges
-                    wdata_r[15:0]   <= tick_data_w + edgeTick_data_w;
+                    wdata_r[15:0]   <= tick_data_w + rem_cycle_w;
                 end
                 else begin//1st iteration
                     wdata_r[15:0]   <= tick_data_w;
