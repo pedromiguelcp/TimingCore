@@ -1,2 +1,0 @@
-fp_cordic_to_float.v,verilog,xil_defaultlib,../../../../laserSync.gen/sources_1/ip/fp_cordic_to_float/sim/fp_cordic_to_float.v,
-glbl.v,Verilog,xil_defaultlib,glbl.v

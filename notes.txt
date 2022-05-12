@@ -1,22 +1,24 @@
-substituir todas as constantes pelo valor respetivo no formato floating-point
-validar tudo e comparar com o sw com varios valores de freq_i
-testar de alguma forma no lab talvez
-pensar que alterações podem ser feitas
-    menor resolução dos floating-points
-    resolução do cordic
-    uso de fixed-point nas operações
-    implementação do cordic
-falar com o abilio/Rui sobre a primeira iteração e sugestoes
+o que conta sao o numero de pontos por isso ele conta sempre os 360
+ver diferença de ticks nas varias regioes
+contar clock cycles para cada operação
+    fazer diagrama temporal
 
-testar multiplicações com fixed-point e tentar migrar as operaçoes aritméticas 
-	ir vendo quanta resolução perco em termos de ticks
+tem de haver organização dos dados pq eles estão direitos e invertidos
+numero de pontos por linha tem de estar em concordancia com o numero de colunas (20, 360; 19, 361)
+    nao pode dar numero frac
+    numero de pontos por linha tem de ser bem escolhido
 
+poderá haver um erro crescente visto que o espelho faz mais periodos horizontais
+    sincronizar levaria ao dobro do tempo
+        disparos só no movimento numa direção
+    usar line completed para sincronismo
 
+colisão das brams
+    não existe monitorização para reconhecer os w_en
+    sempre que haja 2 addr iguais
 
+entradas em vez dos parametros
+    para ser configurado pelo sw
+    depois de validado por causa do io
 
-/*duvidas*/
-timing core primeira iteração no estado Trigger
-primeiro timestamp = 0
-sincronização entre mirror e board no estado inicial
-delay para começar a disparar antes era /2 agora esta /4
-custom-cordic sera mais tarde implementado
+tempos sw vs hw
