@@ -5,6 +5,7 @@
 #include <cmath>
 #include <complex>
 #include <fstream> 
+#include <chrono>
 
 #define THETAMAX 9 //maximum mechanical angular deflection
 #define SYSCLOCK 500000000 //500MHz clock
@@ -21,6 +22,10 @@ std::ofstream my_arrange_ticks_file ("my_arrange_ticks.txt");
 std::ofstream trigger_ticks_file ("trigger_ticks.txt");
 
 int main(int argc, char *argv[]) {
+	using std::chrono::high_resolution_clock;
+    using std::chrono::duration_cast;
+    using std::chrono::duration;
+    using std::chrono::milliseconds;
     std::cout << std::endl << std::endl << "**********************************" << std::endl << std::endl;
     int newcycle = 1;
 	int precycle = 1;
@@ -71,7 +76,7 @@ int main(int argc, char *argv[]) {
 	//{
 		//newcycle = axiptr->TimingCore_Memory_Update();
 		//axiptr->TimingCore_Memory_Enable();
-
+	auto t1 = high_resolution_clock::now();
         precycle = 0;//just to make it start
 		if	(newcycle != precycle) {
 
@@ -111,24 +116,15 @@ int main(int argc, char *argv[]) {
 
 
 
-                /*if(i == 0 || ((i-1) % 5 == 0)){
-                    //std::cout << "Trigger " << i << "  dt_Tick "  << dt_ticks << std::endl;
-
-                    dt_ticks_file << dt_ticks << std::endl;
-                    trigger_ticks_file << (dt_ticks - last_dt_ticks) << std::endl;
-                    last_dt_ticks = dt_ticks;
-                }*/
-
-                if(counter_frames == 3){
+                /*if(counter_frames == 3){
                     dt_ticks_file << dt_ticks << std::endl;
                     trigger_ticks_file << (dt_ticks - last_dt_ticks) << std::endl;
                     last_dt_ticks = dt_ticks;
                 }
-
                 counter_frames++;
                 if(counter_frames == 5){
                     counter_frames = 0;
-                }
+                }*/
 
 
 				temp[memory_selector][addr] = dt_ticks;
@@ -197,7 +193,7 @@ int main(int argc, char *argv[]) {
 						}
 
 						/***************************************/
-						myaddr = (k*NUMBER_OF_PASSAGES) + myiterator;
+						/*myaddr = (k*NUMBER_OF_PASSAGES) + myiterator;
 						if(myaddr==0 && j==0){//just the first passage
 							mydt_ticks = temp[i][myaddr];
 							my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << myaddr << "]" << std::endl;
@@ -213,12 +209,12 @@ int main(int argc, char *argv[]) {
 								mydt_ticks = temp[i][myaddr] - temp[i][myprev_addr];
 								my_mem_arrange_file << "dt_ticks = temp[" << i << "][" << myaddr << "] - temp["  << i << "][" << myprev_addr << "]" << std::endl;
 							}
-						}
+						}*/
+						//arrange_ticks_file << dt_ticks << std::endl;
+						//my_arrange_ticks_file << mydt_ticks << std::endl;
 						
 
 						/***************************************/
-						arrange_ticks_file << dt_ticks << std::endl;
-						my_arrange_ticks_file << mydt_ticks << std::endl;
 						//Write to FIFO laser fire positions to be read by the ROS Thread when building the point cloud
 						//fireData.at(addr_aux) = FireInfo {dt_ticks, true, 0, addr, i};
 
@@ -243,7 +239,15 @@ int main(int argc, char *argv[]) {
 
 				//fire->enqueue(fireData);
 			}
+			auto t2 = high_resolution_clock::now();
+			/* Getting number of milliseconds as an integer. */
+			auto ms_int = duration_cast<milliseconds>(t2 - t1);
 
+			/* Getting number of milliseconds as a double. */
+			duration<double, std::milli> ms_double = t2 - t1;
+
+			std::cout << ms_int.count() << "ms\n";
+			std::cout << ms_double.count() << "ms\n";
 			//axiptr->TimingCore_Update_QuarterMirrorCycleDelay(quarter_mirror_cycle_delay);
 
 			FireSize ++;

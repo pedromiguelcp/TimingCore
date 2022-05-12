@@ -1,10 +1,7 @@
-calcular só metade dos ticks
-
 o que conta sao o numero de pontos por isso ele conta sempre os 360
 ver diferença de ticks nas varias regioes
 contar clock cycles para cada operação
     fazer diagrama temporal
-maquina de estados vai logo para o trigger antes de esperar pelo 1º dt_tick
 
 tem de haver organização dos dados pq eles estão direitos e invertidos
 numero de pontos por linha tem de estar em concordancia com o numero de colunas (20, 360; 19, 361)
@@ -16,10 +13,6 @@ poderá haver um erro crescente visto que o espelho faz mais periodos horizontai
         disparos só no movimento numa direção
     usar line completed para sincronismo
 
-calcular só metade e preencher posiçoes da memoria diferentes
-
-last edge tick with big difference 
-
 colisão das brams
     não existe monitorização para reconhecer os w_en
     sempre que haja 2 addr iguais
@@ -28,17 +21,4 @@ entradas em vez dos parametros
     para ser configurado pelo sw
     depois de validado por causa do io
 
-update freq_i quando começar a calcular apenas
-
-TC vai logo para o trigger pq o primeiro tick=0
-    evita o problema de enable do contador
-        delay para dar reset
-    como incrementa a leitura também nao ha problema
-incremeto do read addr é feito 1 clock mais cedo 
-    delay da memória para satisfazer requisitos de timing
-
-core do laserSync não está bem
-
 tempos sw vs hw
-
-limpar notes
